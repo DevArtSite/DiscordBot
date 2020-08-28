@@ -1,4 +1,3 @@
-const { MessageEmbed  } = require('discord.js')
 const { title, description } = require('./responses')
 module.exports = [{
   alias: ['h', 'help'],
@@ -6,7 +5,7 @@ module.exports = [{
   description: 'Vous fournis la liste des commandes.',
   group: 'help',
   script: async ({ Bot, message, args }) => {
-  	if (args.length === 0) {
+    if (args.length === 0) {
       const groups = Bot.commands.regroup()
       Object.keys(groups).map(groupName => {
         const group = groups[groupName]
@@ -15,12 +14,13 @@ module.exports = [{
         embed.addFields(fields)
         message.channel.send(`${message.member}`, embed).catch(error => Bot.handleError(error))
       })
-  	} else {
-  	  let cmd = args[0]
-  	  const embed = Bot.MessageEmbed({ title: title(Bot.user.tag), description: description(Bot.prefix) })
-  	  const command = Bot.commands.find(command => command.alias.find(alias => cmd === alias))
+    } else {
+      const cmd = args[0]
+      const embed = Bot.MessageEmbed({ title: title(Bot.user.tag), description: description(Bot.prefix) })
+      const command = Bot.commands.find(command => command.alias.find(alias => cmd === alias))
+      if (!command || (command.length && command.length === 0)) return
       embed.addFields([{ name: command.name, value: `${command.description}\nCommandes: [\`\`${command.alias.toString()}\`\`]` }])
-  	  message.channel.send(`${message.member}`, embed).catch(error => Bot.handleError(error))
+      message.channel.send(`${message.member}`, embed).catch(error => Bot.handleError(error))
     }
   }
 }]

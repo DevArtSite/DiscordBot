@@ -5,7 +5,7 @@ module.exports = Bot => class Modules extends Collection {
   constructor (modulesPath) {
   	super()
     this.defaultPath = path.resolve(`${__dirname}/modules`)
-  	this.modulesPath = path.resolve(modulesPath)
+  	this.modulesPath = (modulesPath) ? path.resolve(modulesPath) : null
     this.Module = require('./Module')(Bot)
   }
 
@@ -31,7 +31,7 @@ module.exports = Bot => class Modules extends Collection {
 
   async init () {
     await this.load(this.defaultPath)
-    await this.load(this.modulesPath)
+    if (this.modulesPath) await this.load(this.modulesPath)
   }
 
   async start () {
