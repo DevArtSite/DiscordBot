@@ -9,11 +9,13 @@ module.exports = [{
   ],
   group: 'help',
   script: async ({ Bot, message, args }) => {
+    const embedTitle = (tag, group = null) => (Bot.customHelp.title) ? Bot.customHelp.title(tag, group) : title(tag, group)
+    const embedDescr = prefix => (Bot.customHelp.description) ? Bot.customHelp.description(prefix) : description(prefix)
     if (args.length === 0) {
       const groups = Bot.commands.regroup()
       Object.keys(groups).map(groupName => {
         const group = groups[groupName]
-        const embed = Bot.MessageEmbed({ title: title(`${Bot.user.tag}, Section: ${groupName}`), description: description(Bot.prefix) })
+        const embed = Bot.MessageEmbed({ title: embedTitle(Bot.user.tag, groupName), description: embedDescr(Bot.prefix) })
         const fields = group.map(command => {
           return {
             name: command.name,
@@ -25,7 +27,7 @@ module.exports = [{
       })
     } else {
       const cmd = args[0]
-      const embed = Bot.MessageEmbed({ title: title(Bot.user.tag), description: description(Bot.prefix) })
+      const embed = Bot.MessageEmbed({ title: embedTitle(Bot.user.tag), description: embedDescr(Bot.prefix) })
       const command = Bot.commands.find(command => command.alias.find(alias => cmd === alias))
       if (!command || (command.length && command.length === 0)) return
       embed.addFields([{

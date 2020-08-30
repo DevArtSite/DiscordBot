@@ -1,5 +1,5 @@
-const { Client, Collection, MessageEmbed } = require('discord.js')
-const mongoose = require('mongoose');
+const { Client, MessageEmbed } = require('discord.js')
+const mongoose = require('mongoose')
 module.exports = class Bot extends Client {
   constructor (options) {
     super()
@@ -14,6 +14,11 @@ module.exports = class Bot extends Client {
     this.dev = options.dev
     this.prefix = options.prefix || '&'
     this.dbname = options.dbname || null
+
+    this.customHelp = {
+      title: options.customHelp.title || null,
+      description: options.customHelp.description || null
+    }
 
     this.dbOptions = {
       useNewUrlParser: true,
@@ -30,13 +35,12 @@ module.exports = class Bot extends Client {
   }
 
   async connect () {
-    if (this.dbname) {
-      const mongodb = await mongoose.connect(`mongodb://localhost:27017/${this.dbname}`, this.dbOptions).catch(error => this.handleError(error))
-      this.db = mongodb.connection
-      if (this.db.readyState !== 1) await new Promise(resolve => this.db.on('open', () => resolve(true)))
-      this.emit('debug', '[Bot] Mongodb connected')
-      return this.db
-    } else return
+    if (!this.dbname) return
+    const mongodb = await mongoose.connect(`mongodb://localhost:27017/${this.dbname}`, this.dbOptions).catch(error => this.handleError(error))
+    this.db = mongodb.connection
+    if (this.db.readyState !== 1) await new Promise(resolve => this.db.on('open', () => resolve(true)))
+    this.emit('debug', '[Bot] Mongodb connected')
+    return this.db
   }
 
   async login () {
@@ -62,7 +66,7 @@ module.exports = class Bot extends Client {
 
   MessageEmbed ({ title, description }) {
     if (!title) throw new Error('MessageEmbed title is required')
-      if (!description) throw new Error('MessageEmbed description is required')
+    if (!description) throw new Error('MessageEmbed description is required')
     const embed = new MessageEmbed()
       .setTitle(title)
       .setThumbnail(this.user.displayAvatarURL())
