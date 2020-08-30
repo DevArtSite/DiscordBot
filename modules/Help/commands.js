@@ -19,7 +19,7 @@ module.exports = [{
         const fields = group.map(command => {
           return {
             name: command.name,
-            value: `${handleDescription(command.description)}\nCommandes: [\`\`${command.alias.toString()}\`\`]`
+            value: `${handleDescription(command.description)}\nAlias: [\`\`${command.alias.toString()}\`\`]`
           }
         })
         embed.addFields(fields)
@@ -32,7 +32,7 @@ module.exports = [{
       if (!command || (command.length && command.length === 0)) return
       embed.addFields([{
         name: command.name,
-        value: `${handleDescription(command.description)}\nCommandes: [\`\`${command.alias.toString()}\`\`]`
+        value: `${handleDescription(command.description)}\nAlias: [\`\`${command.alias.toString()}\`\`]`
       }])
       message.channel.send(`${message.member}`, embed).catch(error => Bot.handleError(error))
     }
