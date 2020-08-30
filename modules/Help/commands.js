@@ -1,10 +1,10 @@
 const { title, description } = require('./responses')
 module.exports = [{
   alias: ['h', 'help'],
-  name: 'Help',
+  name: ':blue_circle: Help',
   description: [
-    '``h`` ou ``help`` Vous fournis la liste des commandes général.',
-    '``h "command"`` ou ``help "command"`` Pour voir l\'aide pour une commande spécifique en remplacent "command" par l\'alias d\'une commande.',
+    ':arrow_right: ``h`` ou ``help`` Vous fournis la liste complète des commandes.',
+    ':arrow_right: ``h "command"`` ou ``help "command"`` Pour voir l\'aide pour une commande spécifique en remplacent "command" par l\'alias d\'une commande.',
     'Exemple: si vous fait un ``h help`` (pourquoi pas ^^) vous ne verrez que l\'aide de la commande "help"'
   ],
   group: 'help',
