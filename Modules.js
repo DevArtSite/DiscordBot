@@ -3,15 +3,16 @@ const path = require('path')
 const { Collection } = require('discord.js')
 module.exports = Bot => class Modules extends Collection {
   constructor (modulesPath) {
-  	super()
+    super()
+    if (!modulesPath) console.log('[Bot => Modules] Warning - modulesPath options must be set to use your custom modules')
     this.defaultPath = path.resolve(`${__dirname}/modules`)
-  	this.modulesPath = (modulesPath) ? path.resolve(modulesPath) : null
+    this.modulesPath = (modulesPath) ? path.resolve(modulesPath) : null
     this.Module = require('./Module')(Bot)
   }
 
   async load (modulesPath) {
     const modulesStats = await fs.stat(modulesPath).catch(error => Bot.handleError(error))
-    if (!modulesStats || !modulesStats.isDirectory()) throw new Error(`${dir} must be a folder`)
+    if (!modulesStats || !modulesStats.isDirectory()) throw new Error(`${modulesPath} must be a folder`)
     const modules = await fs.readdir(modulesPath).catch(error => Bot.handleError(error))
     const promises = modules.map(async name => {
       const path = `${modulesPath}/${name}`
@@ -35,6 +36,6 @@ module.exports = Bot => class Modules extends Collection {
   }
 
   async start () {
-  	await Promise.all(this.map(async mod => await mod.start().catch(error => Bot.handleError(error)))).catch(error => Bot.handleError(error))
+    await Promise.all(this.map(async mod => await mod.start().catch(error => Bot.handleError(error)))).catch(error => Bot.handleError(error))
   }
 }

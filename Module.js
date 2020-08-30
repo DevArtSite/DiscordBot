@@ -1,10 +1,10 @@
 const fs = require('fs')
 module.exports = Bot => class Module {
   constructor (options) {
-  	if (!options.name) throw new Error('Module name undefined')
-  	if (!options.path) throw new Error('Module path undefined')
+    if (!options.name) throw new Error('Module name undefined')
+    if (!options.path) throw new Error('Module path undefined')
 
-  	this.name = options.name
+    this.name = options.name
     this.path = options.path
 
     this.author = options.author || null
@@ -18,16 +18,13 @@ module.exports = Bot => class Module {
   async init () {
     if (this.disable) return
     Bot.emit('debug', `[Bot => Module] ${this.name} Init`)
-  	try {
-  	  this.script = require(this.path)
-      this.api = (fs.existsSync(`${this.path}/api.js`)) ? require(`${this.path}/api`)(Bot) : null
-  	  return true
-  	} catch (error) { throw error }
+    this.script = require(this.path)
+    this.api = (fs.existsSync(`${this.path}/api.js`)) ? require(`${this.path}/api`)(Bot) : null
   }
 
   async start () {
     if (this.disable) return
     Bot.emit('debug', `[Bot => Module] ${this.name} Start`)
-  	return this.script.run(Bot)
+    return this.script.run(Bot)
   }
 }
