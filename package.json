@@ -1,19 +1,16 @@
 {
   "name": "@devartsite/discordbot",
-  "version": "1.0.9",
+  "version": "2.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node -r dotenv/config test"
   },
-  "author": "MNLaugh",
+  "author": "",
   "license": "ISC",
-  "description": "",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DevArtSite/DiscordBot.git"
-  },
-  "bugs": {
-    "url": "https://github.com/DevArtSite/DiscordBot/issues"
-  },
-  "homepage": "https://github.com/DevArtSite/DiscordBot#readme"
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.10.3"
+  }
 }

@@ -1,10 +1,10 @@
-const { setActivity } = require('./responses')
-const ready = async Bot => {
+const ready = async function () {
+  const self = this.modules.find(module => module.name === 'Help')
   const types = ['PLAYING', 'WATCHING', 'LISTENING']
   let i = 0
-  await Bot.user.setActivity(setActivity(Bot.prefix), { type: types[types.length - 1] }).catch(error => Bot.handleError(error))
+  await this.user.setActivity(self.responses.setActivity(this.prefix), { type: types[types.length - 1] }).catch(error => this.handleError(error))
   setInterval(async () => {
-    await Bot.user.setActivity(setActivity(Bot.prefix), { type: types[i] }).catch(error => Bot.handleError(error))
+    await this.user.setActivity(self.responses.setActivity(this.prefix), { type: types[i] }).catch(error => this.handleError(error))
     if (i < types.length - 1) i++
     else i = 0
   }, 5000)
