@@ -165,17 +165,18 @@ module.exports = class DiscordBot extends Client {
    * @param {Object} [data] Whether to skip the cache check and request the API
    * @returns {MessageEmbed}
    */
-  MessageEmbed (data = {
-    title: null,
-    description: null,
-    color: 'RANDOM',
-    thumbnail: this.user.displayAvatarURL(),
-    timestamp: new Date(),
-    footer: {
-      text: `${this.user.tag} | ${this.dev}`,
-      iconUrl: this.user.displayAvatarURL()
-    }
-  }) {
+  MessageEmbed (data = {}) {
+    data = Object.assign({
+      title: null,
+      description: null,
+      color: 'RANDOM',
+      thumbnail: this.user.displayAvatarURL(),
+      timestamp: new Date(),
+      footer: {
+        text: `${this.user.tag} | ${this.dev}`,
+        iconUrl: this.user.displayAvatarURL()
+      }
+    }, data)
     return new MessageEmbed(data)
   }
 

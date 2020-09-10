@@ -1,6 +1,6 @@
 require('dotenv').config()
 const DiscordBot = require('../')
-const Bot = new DiscordBot({
+const client = new DiscordBot({
   ggid: '377168761322471425',
   gcid: '747413628101197845',
   dev: 'MNLaugh',
@@ -13,8 +13,8 @@ const Bot = new DiscordBot({
   modulesPath: `${__dirname}/modules` // ,
   // useDefaultModule: ['*']
 })
-Bot.login(process.env.TOKEN || null).then(() => {
+client.login(process.env.TOKEN || null).then(() => {
   console.log('Bot started token: ', process.env.TOKEN)
   // console.log(Bot)
 }).catch(console.error)
-Bot.on('debug', console.log)
+client.on('debug', console.log)
