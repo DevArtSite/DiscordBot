@@ -2,6 +2,7 @@
 const { Message } = require('discord.js')
 /**
  * Represents the Discord bot in logged in client’s.
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/Message}
  * @extends {Message}
  */
 class CommandMessage extends Message {
@@ -12,6 +13,7 @@ class CommandMessage extends Message {
 
   /**
    * The execution of command if message is it
+   * @returns {Promise}
    */
   execute () {
     if (this.author.bot || !this.guild || !this.content.startsWith(this.client.prefix)) return
