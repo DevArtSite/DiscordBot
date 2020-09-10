@@ -17,4 +17,4 @@ client.login(process.env.TOKEN || null).then(() => {
   console.log('Bot started token: ', process.env.TOKEN)
   // console.log(Bot)
 }).catch(console.error)
-client.on('debug', console.log)
+// client.on('debug', console.log)

@@ -1,9 +1,11 @@
 const { Snowflake } = require('discord.js')
-module.exports = class Command {
+/**
+ * Represents the command.
+ */
+class Command {
   constructor (module, { alias = [], name = '', description = '', group = null, script = () => null, autoDel = true }) {
     /**
      * The instance of DicordBot client
-     * @name client
      * @type {DicordBot}
      * @readonly
      */
@@ -11,23 +13,20 @@ module.exports = class Command {
 
     /**
      * The instance of Module
-     * @name module
      * @type {Module}
      * @readonly
      */
     this.module = module
 
     /**
-     * The alias array
-     * @name alias
-     * @type {Array}
+     * The id of this command
+     * @type {Snowflake}
      * @readonly
      */
-    this.alias = alias
+    this.id = Snowflake.generate()
 
     /**
      * The name of command
-     * @name name
      * @type {String}
      * @readonly
      */
@@ -35,15 +34,20 @@ module.exports = class Command {
 
     /**
      * The description of command
-     * @name description
      * @type {String}
      * @readonly
      */
     this.description = description
 
     /**
+     * The alias array
+     * @type {Array}
+     * @readonly
+     */
+    this.alias = alias
+
+    /**
      * The group name of command
-     * @name group
      * @type {String}
      * @readonly
      */
@@ -51,7 +55,6 @@ module.exports = class Command {
 
     /**
      * The script function of command
-     * @name script
      * @type {Function}
      * @readonly
      */
@@ -59,19 +62,10 @@ module.exports = class Command {
 
     /**
      * The status of this command
-     * @name delete
      * @type {Boolean}
      * @readonly
      */
-    this.delete = autoDel
-
-    /**
-     * The id of this command
-     * @name id
-     * @type {Snowflake}
-     * @readonly
-     */
-    this.id = Snowflake.generate()
+    this.autoDel = autoDel
 
     this.push()
     this.client.emit('debug', `[DiscordBot => Command] ${this.name} Create`)
@@ -79,7 +73,6 @@ module.exports = class Command {
 
   /**
    * Execute script command
-   * @name execute
    * @param {CommandMessage} [message] Instance of CommandMessage
    * @param {Array} [args] Arguments
    */
@@ -89,9 +82,10 @@ module.exports = class Command {
 
   /**
    * Push this command to client & module commands collection
-   * @name push
    */
   push () {
     ['client', 'module'].forEach(collection => this[collection].commands.set(this.id, this))
   }
 }
+
+module.exports = Command

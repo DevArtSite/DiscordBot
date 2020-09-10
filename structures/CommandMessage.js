@@ -1,11 +1,18 @@
 
 const { Message } = require('discord.js')
-module.exports = class CommandMessage extends Message {
+/**
+ * Represents the Discord bot in logged in client’s.
+ * @extends {Message}
+ */
+class CommandMessage extends Message {
   constructor (client, data, channel) {
     super(client, data, channel)
     this.execute()
   }
 
+  /**
+   * The execution of command if message is it
+   */
   execute () {
     if (this.author.bot || !this.guild || !this.content.startsWith(this.client.prefix)) return
     const args = this.content.slice(this.client.prefix.length).trim().split(/ +/)
@@ -14,7 +21,16 @@ module.exports = class CommandMessage extends Message {
     if (!command) return
     this.command = command
     this.command.execute(this, args).catch(error => this.client.handleError(error))
-    if (this.command.delete) this.delete().catch(error => this.client.handleError(error))
+    if (this.command.autoDel) this.delete().catch(error => this.client.handleError(error))
     this.client.emit('debug', `[DiscordBot => CommandMessage] ${this.command.name} Executed at ${new Date()}`)
+
+    /**
+     * Emitted whenever a command is executed.
+     * @event DiscordBot#Command
+     * @param {Command} command The guild that has become unavailable
+     */
+    this.client.emit('command', this, command, args)
   }
 }
+
+module.exports = CommandMessage

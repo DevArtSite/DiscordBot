@@ -1,11 +1,14 @@
 const fs = require('fs')
+const { Snowflake } = require('discord.js')
 const Commands = require('./Commands')
 const Command = require('./Command')
-module.exports = class Module {
-  constructor (client, { id, name = null, path = null, author = null, disable = false }) {
+/**
+ * Represents the Module.
+ */
+class Module {
+  constructor (client, { name = null, path = null, author = null, disable = false }) {
     /**
      * The instance of DicordBot client
-     * @name client
      * @type {DicordBot}
      * @readonly
      */
@@ -13,15 +16,13 @@ module.exports = class Module {
 
     /**
      * The id of this module
-     * @name id
      * @type {Snowflake}
      * @readonly
      */
-    this.id = id
+    this.id = Snowflake.generate()
 
     /**
      * The name of this module
-     * @name name
      * @type {String}
      * @readonly
      */
@@ -29,7 +30,6 @@ module.exports = class Module {
 
     /**
      * The path of this module
-     * @name path
      * @type {String}
      * @readonly
      */
@@ -37,7 +37,6 @@ module.exports = class Module {
 
     /**
      * The author of this module
-     * @name author
      * @type {String}
      * @readonly
      */
@@ -45,7 +44,6 @@ module.exports = class Module {
 
     /**
      * The status of this module
-     * @name disable
      * @type {Boolean}
      * @readonly
      */
@@ -53,15 +51,13 @@ module.exports = class Module {
 
     /**
      * The main script of this module
-     * @name script
-     * @type {Function||null}
+     * @type {Function}
      * @readonly
      */
     this.script = (fs.existsSync(`${this.path}/index.js`)) ? require(this.path) : null
 
     /**
      * The methods of this module
-     * @name methods
      * @type {Object}
      * @readonly
      */
@@ -70,7 +66,6 @@ module.exports = class Module {
 
     /**
      * Commands by inclusion of this module
-     * @name _commands
      * @type {Array}
      * @readonly
      */
@@ -78,7 +73,6 @@ module.exports = class Module {
 
     /**
      * Events by inclusion of this module
-     * @name _events
      * @type {Array}
      * @readonly
      */
@@ -86,7 +80,6 @@ module.exports = class Module {
 
     /**
      * Commands by inclusion of this module
-     * @name _commands
      * @type {Array}
      * @readonly
      */
@@ -94,21 +87,16 @@ module.exports = class Module {
 
     /**
      * The commands Collection of this module
-     * @name commands
      * @type {Commands}
      * @readonly
      */
     this.commands = new Commands(this)
-
-    this.commandsInc()
-    this.eventsInc()
 
     this.client.emit('debug', `[DiscordBot => Module] ${this.name} Create`)
   }
 
   /**
    * Check if the file or folder exists
-   * @name existFile
    * @param {String} [name] Name of file/folder
    * @returns {Boolean}
    */
@@ -118,16 +106,15 @@ module.exports = class Module {
 
   /**
    * Automatically adds the commands present in the array _commands
-   * @name commandsInc
    */
   commandsInc () {
     if (!this._commands) return
     this._commands.forEach(_command => new Command(this, _command))
+    this.client.emit('debug', `[DiscordBot => Module] ${this.name} ${this._commands.length} Commands added`)
   }
 
   /**
    * Automatically adds the events present in the array _events
-   * @name commandsInc
    */
   eventsInc () {
     if (!this._events) return
@@ -138,11 +125,22 @@ module.exports = class Module {
   }
 
   /**
+   * Automatically call script function
+   */
+  async scriptInc () {
+    if (!this.script) return
+    return this.script()
+  }
+
+  /**
    * Run the main script of this module
-   * @name run
    */
   async run () {
     this.client.emit('debug', `[DiscordBot => Module] ${this.name} Run`)
-    if (this.script) return this.script()
+    this.commandsInc()
+    this.eventsInc()
+    return this.scriptInc()
   }
 }
+
+module.exports = Module

@@ -1,5 +1,6 @@
 const ready = async function () {
   const self = this.modules.find(module => module.name === 'Help')
+  console.log(self.responses)
   const types = ['PLAYING', 'WATCHING', 'LISTENING']
   let i = 0
   await this.user.setActivity(self.responses.setActivity(this.prefix), { type: types[types.length - 1] }).catch(error => this.handleError(error))

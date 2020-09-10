@@ -1,7 +1,17 @@
 const { Collection } = require('discord.js')
-module.exports = class Commands extends Collection {
+/**
+ * Represents the Commands Collection.
+ * @extends {Collection}
+ */
+class Commands extends Collection {
   constructor (client) {
     super()
+
+    /**
+     * The instance of DicordBot client
+     * @type {DicordBot}
+     * @readonly
+     */
     this.client = client
   }
 
@@ -14,3 +24,5 @@ module.exports = class Commands extends Collection {
     return groups
   }
 }
+
+module.exports = Commands

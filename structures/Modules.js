@@ -1,21 +1,20 @@
 const fs = require('fs')
 const fsp = fs.promises
 const path = require('path')
-const { Collection, Snowflake } = require('discord.js')
+const { Collection } = require('discord.js')
 const Module = require('./Module')
 
 /**
  * Represents the DiscordBot modules Collection.
  * @extends {Collection}
  */
-module.exports = class Modules extends Collection {
+class Modules extends Collection {
   constructor (client, modulesPath = null) {
     super()
     if (!modulesPath) client.emit('warn', '[DiscordBot => Modules] Warning - modulesPath options must be set to use your custom modules')
 
     /**
      * The instance of DicordBot client
-     * @name client
      * @type {DicordBot}
      * @readonly
      */
@@ -23,7 +22,6 @@ module.exports = class Modules extends Collection {
 
     /**
      * The string path to custom modules folder
-     * @name modulesPath
      * @type {String}
      * @readonly
      */
@@ -31,7 +29,6 @@ module.exports = class Modules extends Collection {
 
     /**
      * The string path to default modules folder
-     * @name defaultPath
      * @type {String}
      * @readonly
      */
@@ -40,7 +37,6 @@ module.exports = class Modules extends Collection {
 
   /**
    * Instantiates all new modules in the module folder
-   * @name load
    * @param {modulesPath} [modulesPath] Path to module folder
    */
   async load (modulesPath) {
@@ -53,7 +49,6 @@ module.exports = class Modules extends Collection {
 
   /**
    * Instantiate a new module
-   * @name instanciate
    * @param {String} [path] Path to module folder
    * @param {String} [name] Name of module
    */
@@ -64,15 +59,14 @@ module.exports = class Modules extends Collection {
     if (!stats || !stats.isDirectory()) throw new Error('module must be a folder')
 
     const data = (fs.existsSync(`${path}/module.json`)) ? require(`${path}/module.json`) : {}
-    const mod = new Module(this.client, Object.assign(data, { id: Snowflake.generate(), name, path, stats }))
-
+    Object.assign(data, { name, path })
+    const mod = new Module(this.client, data)
     if (this.get(mod.id)) throw new Error(`This module name ${name} with id "${mod.id}" already exist`)
-    if (!data.disable) this.set(data.id, mod)
+    if (!data.disable) this.set(mod.id, mod)
   }
 
   /**
    * Test if it is a default module and should be enabled
-   * @name isDefaultEnabled
    * @param {String} [path] Path to default module folder
    * @param {String} [name] Name of module
    * @returns {Boolean}
@@ -93,7 +87,6 @@ module.exports = class Modules extends Collection {
 
   /**
    * Call default and custom module instantiation
-   * @name init
    */
   async init () {
     await this.load(this.defaultPath)
@@ -102,10 +95,11 @@ module.exports = class Modules extends Collection {
 
   /**
    * Runs the main scripts of all modules
-   * @name start
    */
   async start () {
     await Promise.all(this.map(async mod => await mod.run().catch(error => this.client.handleError(error))))
       .catch(error => this.client.handleError(error))
   }
 }
+
+module.exports = Modules
