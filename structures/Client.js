@@ -11,13 +11,14 @@ require('./extends')
  */
 class DiscordBot extends Client {
   /**
-   * @param {Object} DiscordBotClientData The data of client
+   * @param {Object} DiscordBotOptions The data of client
    */
   constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', dbname = null, customHelp = { title: null, description: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
     super()
     /**
      * The ggid (global guild id) is the id of the developer’s guild
      * @type {Snowflake}
+     * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
      * @readonly
      */
     this.ggid = ggid
@@ -25,58 +26,48 @@ class DiscordBot extends Client {
     /**
      * The gcid (global channel id) is the id of the developer’s channel on developer’s guild
      * @type {Snowflake}
+     * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
      * @readonly
      */
     this.gcid = gcid
 
     /**
      * The dev is the name of the main developer
-     * @type {String}
+     * @type {string}
      * @readonly
      */
     this.dev = dev
 
     /**
      * The prefix is a character string to recognize a command of a message
-     * @type {String}
+     * @type {string}
      * @readonly
      */
     this.prefix = prefix
 
     /**
      * The dbname is a name of mongo database
-     * @type {String}
+     * @type {string}
      * @readonly
      */
     this.dbname = dbname
 
     /**
      * The customHelp is an object containing the title and custom description for the help command
-     * @type {Object}
+     * @type {HelpEmbedOptions}
      * @readonly
      */
     this.customHelp = customHelp
 
     /**
-     * The commands is an Commands instance of client
-     * @type {Commands}
-     * @readonly
-     */
-    this.commands = new Commands(this)
-
-    /**
-     * The modules is an Modules instance of client
-     * @type {Modules}
-     * @readonly
-     */
-    this.modules = new Modules(this, modulesPath)
-
-    /**
      * Default module selection enabled
-     * @type {Array|Boolean}
+     * @type {string[]|boolean}
      * @readonly
      */
     this.useDefaultModule = useDefaultModule
+
+    this.commands = new Commands(this)
+    this.modules = new Modules(this, modulesPath)
 
     this.dbOptions = {
       useNewUrlParser: true,
@@ -124,7 +115,7 @@ class DiscordBot extends Client {
   /**
    * The Structures class
    * @type {Structures}
-   * @see Structures {@link https://discord.js.org/#/docs/main/stable/class/Structures}
+   * @see {@link https://discord.js.org/#/docs/main/stable/class/Structures}
    * @readonly
    */
   static get Structures () { return Structures }
@@ -132,14 +123,14 @@ class DiscordBot extends Client {
   /**
    * The Snowflake class
    * @type {Snowflake}
-   * @see{@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
+   * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
    * @readonly
    */
   static get Snowflake () { return Snowflake }
 
   /**
    * The MessageEmbed class
-   * @param {Object} [data] Whether to skip the cache check and request the API
+   * @param {EmbedData} [data] Whether to skip the cache check and request the API
    * @returns {MessageEmbed}
    */
   MessageEmbed (data = {}) {
@@ -189,21 +180,41 @@ class DiscordBot extends Client {
 module.exports = DiscordBot
 
 /**
+ * DiscordBot Options.
+ * @typedef {Object} DiscordBotOptions
+ * @property {Snowflake} [ggid] Id of the developer’s guild
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
+ * @property {Snowflake} [gcid] Id of the developer’s channel on developer’s guild
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
+ * @property {string} [dev] Name of the main developer
+ * @property {string} [prefix] Character string to recognize a command of a message
+ * @property {string} [dbname] Name of mongo database
+ * @property {Array|Boolean} [useDefaultModule] Default module selection enabled
+ */
+
+/**
+ * HelpEmbedOptions Options.
+ * @typedef {Object} HelpEmbedOptions
+ * @property {string} [title] Title embed of command
+ * @property {string} [description] Description embed of Help command
+ */
+
+/**
  * Data MessageEmbed.
- * @typedef {Object} DataMessage
- * @property {String} [title] The title of embed
- * @property {String} [description] The description of embed
+ * @typedef {Object} EmbedData
+ * @property {string} [title] The title of embed
+ * @property {string} [description] The description of embed
  * @property {ColorResolvable} [color=RANDOM] The color of the embed
  * @property {string} [url=client.user.displayAvatarURL()] The URL of the thumbnail
  * @property {Date|number} [timestamp=Date.now()] The timestamp or date
- * @property {Object} [footer] The footer of this embed
+ * @property {DataMessageFooter} [footer] The footer of this embed
  */
 
 /**
  * Data MessageEmbed Footer.
- * @typedef {Object} DataMessageFooter
- * @property {String} [text] text The text of the footer
- * @property {String} [iconUrl] The icon URL of the footer
+ * @typedef {Object} EmbedDataFooter
+ * @property {string} [text] text The text of the footer
+ * @property {string} [iconUrl] The icon URL of the footer
  */
 
 /**
