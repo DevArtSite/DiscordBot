@@ -181,11 +181,10 @@ module.exports = DiscordBot
 
 /**
  * DiscordBot Options.
+ * @see Discord.js SnowflakeUtil {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
  * @typedef {Object} DiscordBotOptions
  * @property {Snowflake} [ggid] Id of the developer’s guild
- * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
  * @property {Snowflake} [gcid] Id of the developer’s channel on developer’s guild
- * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
  * @property {string} [dev] Name of the main developer
  * @property {string} [prefix] Character string to recognize a command of a message
  * @property {string} [dbname] Name of mongo database
