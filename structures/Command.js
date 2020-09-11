@@ -74,6 +74,7 @@ class Command {
   /**
    * Execute script command
    * @param {CommandMessage} [message] Instance of CommandMessage
+   * @private
    * @param {Array} [args] Arguments
    */
   async execute (message, args) {
@@ -82,6 +83,7 @@ class Command {
 
   /**
    * Push this command to client & module commands collection
+   * @private
    */
   push () {
     ['client', 'module'].forEach(collection => this[collection].commands.set(this.id, this))

@@ -8,21 +8,21 @@ const { Message } = require('discord.js')
 class CommandMessage extends Message {
   constructor (client, data, channel) {
     super(client, data, channel)
-    this.execute()
+    this.execute().catch(error => this.client.handleError(error))
   }
 
   /**
    * The execution of command if message is it
    * @returns {Promise}
    */
-  execute () {
+  async execute () {
     if (this.author.bot || !this.guild || !this.content.startsWith(this.client.prefix)) return
     const args = this.content.slice(this.client.prefix.length).trim().split(/ +/)
     const cmd = args.shift().toLowerCase()
     const command = this.client.commands.find(command => command.alias.find(str => (str === cmd)))
     if (!command) return
     this.command = command
-    this.command.execute(this, args).catch(error => this.client.handleError(error))
+    await this.command.execute(this, args).catch(error => this.client.handleError(error))
     if (this.command.autoDel) this.delete().catch(error => this.client.handleError(error))
     this.client.emit('debug', `[DiscordBot => CommandMessage] ${this.command.name} Executed at ${new Date()}`)
 

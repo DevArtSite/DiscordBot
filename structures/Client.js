@@ -10,6 +10,9 @@ require('./extends')
  * @extends {Client}
  */
 class DiscordBot extends Client {
+  /**
+   * @param {Object} DiscordBotClientData The data of client
+   */
   constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', dbname = null, customHelp = { title: null, description: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
     super()
     /**
@@ -84,35 +87,35 @@ class DiscordBot extends Client {
 
   /**
    * The DiscordBot class
-   * @type {Function}
+   * @type {DiscordBot}
    * @readonly
    */
   static get DiscordBot () { return DiscordBot }
 
   /**
    * The Modules class
-   * @type {Function}
+   * @type {Modules}
    * @readonly
    */
   static get Modules () { return Modules }
 
   /**
    * The Module class
-   * @type {Object}
+   * @type {Module}
    * @readonly
    */
   static get Module () { return Module }
 
   /**
    * The Commands class
-   * @type {Object}
+   * @type {Commands}
    * @readonly
    */
   static get Commands () { return Commands }
 
   /**
    * The Command class
-   * @type {Object}
+   * @type {Command}
    * @readonly
    */
   static get Command () { return Command }
@@ -120,14 +123,16 @@ class DiscordBot extends Client {
 
   /**
    * The Structures class
-   * @type {Object}
+   * @type {Structures}
+   * @see Structures {@link https://discord.js.org/#/docs/main/stable/class/Structures}
    * @readonly
    */
   static get Structures () { return Structures }
 
   /**
    * The Snowflake class
-   * @type {Object}
+   * @type {Snowflake}
+   * @see{@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
    * @readonly
    */
   static get Snowflake () { return Snowflake }
