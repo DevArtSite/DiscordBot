@@ -33,34 +33,60 @@
   <img alt="GitHub forks" src="https://img.shields.io/github/forks/devartsite/discordbot?style=plastic">
 </p>
 
+
+# Welcome!
+
+Welcome to the DiscordBot v2 documentation.
+
+# About
+
+Discord is an extend of discord.js.
+ *discord.js is a powerful [Node.js](https://nodejs.org) module that allows you to easily interact with the
+[Discord API](https://discord.com/developers/docs/intro).*
+
+- *Object-oriented*
+- *Predictable abstractions*
+- *Performant*
+- *100% coverage of the Discord API*
+
 # Installation
-To install DiscordBot:
+
+**Node.js 12.0.0 or newer is required.**  
 ``` sh
 npm i @devartsite/discordbot
 ```
 
 # Basic example
 ``` js
-const DiscordBot = require('@devartsite/discordbot')
-const client = new DiscordBot({ DiscordBotOptions })
-client.login(token)
+const { DiscordBot, Command } = require('@devartsite/discordbot')
+
+const client = new DiscordBot({
+  ggid: 'my guild id',
+  gcid: 'my channel id',
+  dev: 'my name',
+  prefix: '&prefix'
+})
+
+const myCommand = new Command(client, {
+  alias: ['ping'],
+  name: ':blue_circle: Ping',
+  description: [
+    ':arrow_right: ``ping`` Respond Pong!!.'
+  ],
+  group: 'ping',
+  script: async function (message) {
+    message.channel.send('Pong!!')
+  }
+})
+
+client.login('my token').then(() => {
+  console.log('Bot started and ready')
+}).catch(console.error)
 ```
  - By default DiscordBot integrates a [Help Module](https://github.com/DevArtSite/DiscordBot/tree/master/modules/Help)
 
-#### options
 
- - `ggid` - **String** (*global guild id*) Id of the developer’s guild *(default "``null``")*
- - `gcid` - **String** (*global channel id*) Id of the developer’s channel on developer’s guild *(default "``null``")*
- - `dev` - **String** Name of the main developer *(default "``Anonymous``")*
- - `prefix` - **String** Character string to recognize a command of a message *(default "``&``")*
- - `dbname` - **String** Name of mongo database *(default "``null``")*
- - `customHelp` - **Object** object containing the title and custom description for the help command
-   - `title` - **String** Title help command *(default "``null``")*
-   - `description` - **String** Description help command *(default "``null``")*
- - `modulesPath` - **String** Your modules folder path *(default "``null``")*
- - `useDefaultModule` - **Boolean|Array** Module selection enabled *(default "``['*']``")*
-
-## Module implementation
+# Module implementation
 ```sh
 YourDiscordBot
 ├── modules
@@ -71,3 +97,15 @@ YourDiscordBot
 │   └── events.js
 └── index.js
 ```
+
+# Links
+
+- [Website](https://discord.js.org/) ([source](https://github.com/discordjs/website))
+- [discord.js Website](https://discord.js.org/) ([source](https://github.com/discordjs/website))
+- [discord.js Documentation](https://discord.js.org/#/docs/main/master/general/welcome)
+
+
+# Help
+
+If you don't understand something in the documentation, you are experiencing problems, or you just need a gentle
+nudge in the right direction, please don't hesitate to join our official [Discord.js Server](https://discord.gg/bRCvFy9).
