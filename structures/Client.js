@@ -148,6 +148,12 @@ class DiscordBot extends Client {
     return new MessageEmbed(data)
   }
 
+  /**
+   * The MessageEmbed class
+   * @see {@link https://mongoosejs.com/docs/api/connection.html#connection_Connection}
+   * @private
+   * @returns {MongooseConnection}
+   */
   async connect () {
     if (!this.dbname) return
     const mongodb = await mongoose.connect(`mongodb://localhost:27017/${this.dbname}`, this.dbOptions).catch(error => this.handleError(error))
@@ -171,6 +177,10 @@ class DiscordBot extends Client {
     return super.login(token)
   }
 
+  /**
+   * Handle error
+   * @private
+   */
   handleError (error) {
     if (!this.emit) throw error
     return this.emit('error', error)
@@ -181,14 +191,14 @@ module.exports = DiscordBot
 
 /**
  * DiscordBot Options.
- * @see Discord.js SnowflakeUtil {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
  * @typedef {Object} DiscordBotOptions
  * @property {Snowflake} [ggid] Id of the developer’s guild
  * @property {Snowflake} [gcid] Id of the developer’s channel on developer’s guild
  * @property {string} [dev] Name of the main developer
  * @property {string} [prefix] Character string to recognize a command of a message
  * @property {string} [dbname] Name of mongo database
- * @property {Array|Boolean} [useDefaultModule] Default module selection enabled
+ * @property {Array|boolean} [useDefaultModule] Default module selection enabled
  */
 
 /**
@@ -200,6 +210,7 @@ module.exports = DiscordBot
 
 /**
  * Data MessageEmbed.
+ * @see {@link https://discord.js.org/#/docs/main/stable/typedef/ColorResolvable}
  * @typedef {Object} EmbedData
  * @property {string} [title] The title of embed
  * @property {string} [description] The description of embed
@@ -207,6 +218,45 @@ module.exports = DiscordBot
  * @property {string} [url=client.user.displayAvatarURL()] The URL of the thumbnail
  * @property {Date|number} [timestamp=Date.now()] The timestamp or date
  * @property {DataMessageFooter} [footer] The footer of this embed
+ */
+
+/**
+ * Can be a number, hex string, an RGB array like:
+ * ```js
+ * [255, 0, 255] // purple
+ * ```
+ * or one of the following strings:
+ * - `DEFAULT`
+ * - `WHITE`
+ * - `AQUA`
+ * - `GREEN`
+ * - `BLUE`
+ * - `YELLOW`
+ * - `PURPLE`
+ * - `LUMINOUS_VIVID_PINK`
+ * - `GOLD`
+ * - `ORANGE`
+ * - `RED`
+ * - `GREY`
+ * - `DARKER_GREY`
+ * - `NAVY`
+ * - `DARK_AQUA`
+ * - `DARK_GREEN`
+ * - `DARK_BLUE`
+ * - `DARK_PURPLE`
+ * - `DARK_VIVID_PINK`
+ * - `DARK_GOLD`
+ * - `DARK_ORANGE`
+ * - `DARK_RED`
+ * - `DARK_GREY`
+ * - `LIGHT_GREY`
+ * - `DARK_NAVY`
+ * - `BLURPLE`
+ * - `GREYPLE`
+ * - `DARK_BUT_NOT_BLACK`
+ * - `NOT_QUITE_BLACK`
+ * - `RANDOM`
+ * @typedef {string|number|number[]} ColorResolvable
  */
 
 /**
