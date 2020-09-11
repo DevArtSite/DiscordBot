@@ -1,22 +1,24 @@
 const { Snowflake } = require('discord.js')
 /**
  * Represents the command.
+ * @param {DicordBot|Module} [module] Should be Module if is command from module or Client if is a command out of module context
+ * @param {CommandOptions} [data] Data for command
  */
 class Command {
-  constructor (module, { alias = [], name = '', description = '', group = null, script = () => null, autoDel = true }) {
+  constructor (module = null, { alias = [], name = '', description = '', group = null, script = () => null, autoDel = true }) {
     /**
      * The instance of DicordBot client
      * @type {DicordBot}
      * @readonly
      */
-    this.client = module.client
+    this.client = (!module.client) ? module : module.client
 
     /**
      * The instance of Module
      * @type {Module}
      * @readonly
      */
-    this.module = module
+    this.module = (!module.client) ? null : module
 
     /**
      * The id of this command
@@ -86,8 +88,24 @@ class Command {
    * @private
    */
   push () {
-    ['client', 'module'].forEach(collection => this[collection].commands.set(this.id, this))
+    ['client', 'module'].forEach(collection => {
+      if (!this[collection]) return
+      this[collection].commands.set(this.id, this)
+    })
   }
 }
 
 module.exports = Command
+
+/**
+ * Command Options.
+ * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
+ * @typedef {Object} CommandOptions
+ * @property {Snowflake} [id] The id of this command
+ * @property {String} [name] The name of command
+ * @property {string} [description] The description of command
+ * @property {Array} [alias] The alias array
+ * @property {string} [group] The group name of command
+ * @property {Function} [script] The script main function of command
+ * @property {Boolean} [autoDel] The status of this command
+ */
