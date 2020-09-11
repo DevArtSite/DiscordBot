@@ -34,14 +34,12 @@ class DiscordBot extends Client {
     /**
      * The dev is the name of the main developer
      * @type {string}
-     * @readonly
      */
     this.dev = dev
 
     /**
      * The prefix is a character string to recognize a command of a message
      * @type {string}
-     * @readonly
      */
     this.prefix = prefix
 
@@ -55,7 +53,6 @@ class DiscordBot extends Client {
     /**
      * The customHelp is an object containing the title and custom description for the help command
      * @type {HelpEmbedOptions}
-     * @readonly
      */
     this.customHelp = customHelp
 
@@ -66,13 +63,38 @@ class DiscordBot extends Client {
      */
     this.useDefaultModule = useDefaultModule
 
+    /**
+     * Commands collection of client
+     * @type {Commands}
+     * @readonly
+     */
     this.commands = new Commands(this)
+
+    /**
+     * Modules collection of client
+     * @type {Commands}
+     * @readonly
+     */
     this.modules = new Modules(this, modulesPath)
 
+    /**
+     * Mongodb options
+     * @type {Object}
+     * @private
+     * @readonly
+     */
     this.dbOptions = {
       useNewUrlParser: true,
       useUnifiedTopology: true
     }
+
+    /**
+     * Mongodb connection
+     * @see {@link https://mongoosejs.com/docs/api/connection.html#connection_Connection}
+     * @type {MongooseConnection}
+     * @private
+     * @readonly
+     */
     this.db = null
   }
 
@@ -86,6 +108,7 @@ class DiscordBot extends Client {
   /**
    * The Modules class
    * @type {Modules}
+   * @private
    * @readonly
    */
   static get Modules () { return Modules }
@@ -93,6 +116,7 @@ class DiscordBot extends Client {
   /**
    * The Module class
    * @type {Module}
+   * @private
    * @readonly
    */
   static get Module () { return Module }
@@ -100,6 +124,7 @@ class DiscordBot extends Client {
   /**
    * The Commands class
    * @type {Commands}
+   * @private
    * @readonly
    */
   static get Commands () { return Commands }
@@ -130,8 +155,10 @@ class DiscordBot extends Client {
 
   /**
    * The MessageEmbed class
-   * @param {EmbedData} [data] Whether to skip the cache check and request the API
+   * @param {EmbedData} [data={}] Whether to skip the cache check and request the API
    * @returns {MessageEmbed}
+   * @example
+   * client.MessageEmbed({ title: 'My cool title', description: 'My awsome description' })
    */
   MessageEmbed (data = {}) {
     data = Object.assign({
