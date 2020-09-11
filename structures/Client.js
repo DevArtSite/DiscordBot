@@ -18,7 +18,7 @@ class DiscordBot extends Client {
     /**
      * The ggid (global guild id) is the id of the developer’s guild
      * @type {Snowflake}
-     * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
+     * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
      * @readonly
      */
     this.ggid = ggid
@@ -26,7 +26,7 @@ class DiscordBot extends Client {
     /**
      * The gcid (global channel id) is the id of the developer’s channel on developer’s guild
      * @type {Snowflake}
-     * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
+     * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
      * @readonly
      */
     this.gcid = gcid
@@ -147,7 +147,7 @@ class DiscordBot extends Client {
 
   /**
    * The Snowflake class
-   * @type {Snowflake}
+   * @type {SnowflakeUtil}
    * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
    * @readonly
    */
@@ -218,7 +218,7 @@ module.exports = DiscordBot
 
 /**
  * DiscordBot Options.
- * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
+ * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
  * @typedef {Object} DiscordBotOptions
  * @property {Snowflake} [ggid] Id of the developer’s guild
  * @property {Snowflake} [gcid] Id of the developer’s channel on developer’s guild

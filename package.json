@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node -r dotenv/config test",
-    "docgen": "docgen --source ./structures --output ./docs/docs.json"
+    "docgen": "docgen --source ./structures --output ./docs/master.json"
   },
   "author": "MNLaugh",
   "license": "ISC",
