@@ -54,12 +54,13 @@ class CommandMessage extends Message {
     if (!this.isCommand()) return
     await this.command.execute(this, this.args).catch(error => this.client.handleError(error))
     if (this.command.autoDel) this.delete().catch(error => this.client.handleError(error))
+    this.command.messages.set(this.id, this)
     this.client.emit('debug', `[DiscordBot => CommandMessage] ${this.command.name} Executed at ${new Date()}`)
 
     /**
      * Emitted whenever a command is executed.
      * @event DiscordBot#Command
-     * @param {CommandMessage} this The guild that has become unavailable
+     * @param {CommandMessage} command The guild that has become unavailable
      */
     this.client.emit('command', this)
   }

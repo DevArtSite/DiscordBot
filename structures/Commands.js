@@ -1,6 +1,7 @@
 const { Collection } = require('discord.js')
 /**
  * Represents the Commands Collection.
+ * @see {@link https://discord.js.org/#/docs/collection/master/class/Collection}
  * @extends {Collection}
  */
 class Commands extends Collection {

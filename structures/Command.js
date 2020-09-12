@@ -1,4 +1,4 @@
-const { Snowflake } = require('discord.js')
+const { Snowflake, Collection } = require('discord.js')
 /**
  * Represents the command.
  * @param {DiscordBot|Module} [module] Should be Module if is command from module or Client if is a command out of module context
@@ -68,6 +68,13 @@ class Command {
      * @readonly
      */
     this.autoDel = autoDel
+
+    /**
+     * The COllection messages of this command
+     * @type {Collection}
+     * @readonly
+     */
+    this.messages = new Collection()
 
     this.push()
     this.client.emit('debug', `[DiscordBot => Command] ${this.name} Create`)
