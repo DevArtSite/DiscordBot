@@ -57,13 +57,13 @@ class CommandMessage extends Message {
   }
 
   /**
-   * Get Command from message content
+   * Get Command message
    * @type {Command}
    */
   get command () {
-    if (this.author.bot || !this.guild || !this.prefixed()) return
     const cmd = this.args.shift().toLowerCase()
-    return this.client.commands.find(command => command.alias.find(str => (str === cmd)))
+    const command = this.client.commands.find(command => command.alias.find(str => (str === cmd)))
+    return (!command) ? (this.request.command) ? this.request.command : null : command
   }
 
   /**
@@ -72,6 +72,8 @@ class CommandMessage extends Message {
    * @returns {Promise}
    */
   async execute () {
+    if (this.author.bot) return
+    if (!this.prefixed()) return
     if (!this.isCommandRequest()) return
     await this.command.execute(this, this.args).catch(error => this.client.handleError(error))
     if (this.command.autoDel) this.delete().catch(error => this.client.handleError(error))
