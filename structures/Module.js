@@ -8,8 +8,8 @@ const Command = require('./Command')
 class Module {
   constructor (client, { name = null, path = null, author = null, disable = false }) {
     /**
-     * The instance of DicordBot client
-     * @type {DicordBot}
+     * The instance of ClientDicordBot client
+     * @type {ClientDicordBot}
      * @readonly
      */
     this.client = client
@@ -23,28 +23,28 @@ class Module {
 
     /**
      * The name of this module
-     * @type {String}
+     * @type {string}
      * @readonly
      */
     this.name = name
 
     /**
      * The path of this module
-     * @type {String}
+     * @type {string}
      * @readonly
      */
     this.path = path
 
     /**
      * The author of this module
-     * @type {String}
+     * @type {string}
      * @readonly
      */
     this.author = author
 
     /**
      * The status of this module
-     * @type {Boolean}
+     * @type {boolean}
      * @readonly
      */
     this.disable = disable
@@ -62,7 +62,7 @@ class Module {
      * @readonly
      */
     this.methods = (this.existFile('methods')) ? require(`${this.path}/methods`) : {}
-    this.methods.self = this
+    this.methods.module = this
 
     /**
      * Commands by inclusion of this module
@@ -73,7 +73,7 @@ class Module {
 
     /**
      * Events by inclusion of this module
-     * @type {Array}
+     * @type {Object}
      * @readonly
      */
     this._events = (this.existFile('events')) ? require(`${this.path}/events`) : []
@@ -98,6 +98,7 @@ class Module {
   /**
    * Check if the file or folder exists
    * @param {String} [name] Name of file/folder
+   * @private
    * @returns {Boolean}
    */
   existFile (name) {
@@ -105,42 +106,28 @@ class Module {
   }
 
   /**
-   * Automatically adds the commands present in the array _commands
-   */
-  commandsInc () {
-    if (!this._commands) return
-    this._commands.forEach(_command => new Command(this, _command))
-    this.client.emit('debug', `[DiscordBot => Module] ${this.name} ${this._commands.length} Commands added`)
-  }
-
-  /**
-   * Automatically adds the events present in the array _events
-   */
-  eventsInc () {
-    if (!this._events) return
-    Object.keys(this._events).forEach(_eventName => {
-      this.client.on(_eventName, this._events[_eventName])
-      this.client.emit('debug', `[DiscordBot => Module] ${this.name} Event ${_eventName} listening`)
-    })
-  }
-
-  /**
-   * Automatically call script function
-   */
-  async scriptInc () {
-    if (!this.script) return
-    return this.script()
-  }
-
-  /**
    * Run the main script of this module
+   * @returns {Promise} ModuleScriptFunction
    */
   async run () {
     this.client.emit('debug', `[DiscordBot => Module] ${this.name} Run`)
-    this.commandsInc()
-    this.eventsInc()
+    this._commands.forEach(_command => new Command(this, _command))
+    Object.keys(this._events).forEach(_eventName => this.client.on(_eventName, this._events[_eventName]))
+    if (!this.script) return
     return this.scriptInc()
   }
 }
 
 module.exports = Module
+
+/**
+ * Main function of a module
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
+ * @typedef {Async} ModuleScriptFunction
+ * @example
+ * // In this function "this" can be used
+ * async function () { }
+ * @example
+ * // In this function "this" cannot be used
+ * async () => { }
+ */

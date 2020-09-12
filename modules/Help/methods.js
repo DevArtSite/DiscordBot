@@ -1,12 +1,12 @@
 module.exports = {
   help: async function (args) {
-    const embedTitle = (tag, group = null) => (this.self.client.customHelp.title) ? this.self.client.customHelp.title(tag, group) : this.self.responses.title(tag, group)
-    const embedDescr = prefix => (this.self.client.customHelp.description) ? this.self.client.customHelp.description(prefix) : this.self.responses.description(prefix)
+    const embedTitle = (tag, group = null) => (this.module.client.customHelp.title) ? this.module.client.customHelp.title(tag, group) : this.module.responses.title(tag, group)
+    const embedDescr = prefix => (this.module.client.customHelp.description) ? this.module.client.customHelp.description(prefix) : this.module.responses.description(prefix)
     if (args.length === 0) {
-      const groups = this.self.client.commands.groups()
+      const groups = this.module.client.commands.groups()
       return Object.keys(groups).map(groupName => {
         const group = groups[groupName]
-        const embed = this.self.client.MessageEmbed({ title: embedTitle(this.self.client.user.tag, groupName), description: embedDescr(this.self.client.prefix) })
+        const embed = this.module.client.MessageEmbed({ title: embedTitle(this.module.client.user.tag, groupName), description: embedDescr(this.module.client.prefix) })
         const fields = group.map(command => {
           return {
             name: command.name,
@@ -18,8 +18,8 @@ module.exports = {
       })
     } else {
       const cmd = args[0]
-      const embed = this.self.client.MessageEmbed({ title: embedTitle(this.self.client.user.tag), description: embedDescr(this.self.client.prefix) })
-      const command = this.self.client.commands.find(command => command.alias.find(alias => cmd === alias))
+      const embed = this.module.client.MessageEmbed({ title: embedTitle(this.module.client.user.tag), description: embedDescr(this.module.client.prefix) })
+      const command = this.module.client.commands.find(command => command.alias.find(alias => cmd === alias))
       if (!command || (command.length && command.length === 0)) return
       embed.addFields([{
         name: command.name,

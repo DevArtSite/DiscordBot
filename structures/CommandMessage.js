@@ -106,3 +106,30 @@ class CommandMessage extends Message {
 }
 
 module.exports = CommandMessage
+
+/**
+ * Data that can be resolved to give a string. This can be:
+ * * A string
+ * * An array (joined with a new line delimiter to give a string)
+ * * Any value
+ * @see {@link https://discord.js.org/#/docs/main/stable/typedef/StringResolvable}
+ * @typedef {string|Array|*} StringResolvable
+ */
+
+/**
+ * Represents a message to be sent to the API.
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/APIMessage}
+ * @typedef {Object} APIMessage
+ */
+
+/**
+ * Options provided when sending or editing a message.
+ * @see {@link https://discord.js.org/#/docs/main/stable/typedef/MessageOptions}
+ * @typedef {Object} MessageOptions
+ */
+
+/**
+ * Additional items that can be sent with a message.
+ * @see {@link https://discord.js.org/#/docs/main/stable/typedef/MessageAdditions}
+ * @typedef {MessageEmbed|MessageAttachment|Array<MessageEmbed|MessageAttachment>} MessageAdditions
+ */

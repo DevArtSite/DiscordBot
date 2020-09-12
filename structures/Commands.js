@@ -1,7 +1,6 @@
 const { Collection } = require('discord.js')
 /**
  * Represents the Commands Collection.
- * @see {@link https://discord.js.org/#/docs/collection/master/class/Collection}
  * @extends {Collection}
  */
 class Commands extends Collection {
@@ -9,13 +8,17 @@ class Commands extends Collection {
     super()
 
     /**
-     * The instance of DicordBot client
-     * @type {DicordBot}
+     * The instance of ClientDicordBot client
+     * @type {ClientDicordBot}
      * @readonly
      */
     this.client = client
   }
 
+  /**
+   * Groups commands by group
+   * @returns {Object}
+   */
   groups () {
     const groups = {}
     this.each(Command => {

@@ -14,22 +14,23 @@ class Modules extends Collection {
     if (!modulesPath) client.emit('warn', '[DiscordBot => Modules] Warning - modulesPath options must be set to use your custom modules')
 
     /**
-     * The instance of DicordBot client
-     * @type {DicordBot}
+     * The instance of ClientDicordBot client
+     * @type {ClientDicordBot}
      * @readonly
      */
     this.client = client
 
     /**
      * The string path to custom modules folder
-     * @type {String}
+     * @type {resolvedPath}
      * @readonly
      */
     this.modulesPath = path.resolve(modulesPath)
 
     /**
      * The string path to default modules folder
-     * @type {String}
+     * @type {resolvedPath}
+     * @private
      * @readonly
      */
     this.defaultPath = path.resolve(`${__dirname}/../modules`)
@@ -37,7 +38,8 @@ class Modules extends Collection {
 
   /**
    * Instantiates all new modules in the module folder
-   * @param {modulesPath} [modulesPath] Path to module folder
+   * @param {resolvedPath} [modulesPath] Resolved path to module folder
+   * @private
    */
   async load (modulesPath) {
     const modulesStats = await fsp.stat(modulesPath).catch(error => this.client.handleError(error))
@@ -49,8 +51,8 @@ class Modules extends Collection {
 
   /**
    * Instantiate a new module
-   * @param {String} [path] Path to module folder
-   * @param {String} [name] Name of module
+   * @param {resolvedPath} [path] Resolved path to module folder
+   * @param {string} [name] Name of module
    */
   async instanciate (path, name) {
     if (!this.isDefaultEnabled(path, name)) return
@@ -67,9 +69,9 @@ class Modules extends Collection {
 
   /**
    * Test if it is a default module and should be enabled
-   * @param {String} [path] Path to default module folder
-   * @param {String} [name] Name of module
-   * @returns {Boolean}
+   * @param {resolvedPath} [path] Resolved path to default module folder
+   * @param {string} [name] Name of module
+   * @returns {boolean}
    */
   isDefaultEnabled (path, name) {
     return !(path === this.defaultPath &&
@@ -87,6 +89,7 @@ class Modules extends Collection {
 
   /**
    * Call default and custom module instantiation
+   * @private
    */
   async init () {
     await this.load(this.defaultPath)
@@ -95,11 +98,17 @@ class Modules extends Collection {
 
   /**
    * Runs the main scripts of all modules
+   * @private
    */
   async start () {
-    await Promise.all(this.map(async mod => await mod.run().catch(error => this.client.handleError(error))))
-      .catch(error => this.client.handleError(error))
+    await Promise.all(this.map(async mod => await mod.run().catch(error => this.client.handleError(error)))).catch(error => this.client.handleError(error))
   }
 }
 
 module.exports = Modules
+
+/**
+ * Path resolved with "resolve" function from node.js module "path"
+ * @see {@link https://nodejs.org/api/path.html#path_path_resolve_paths}
+ * @typedef {string} resolvedPath
+ */

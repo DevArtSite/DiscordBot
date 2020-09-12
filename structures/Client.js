@@ -1,4 +1,4 @@
-const { Client, MessageEmbed, Structures, Snowflake } = require('discord.js')
+const { Client, MessageEmbed } = require('discord.js')
 const mongoose = require('mongoose')
 const Module = require('./Module')
 const Modules = require('./Modules')
