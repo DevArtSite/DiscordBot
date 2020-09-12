@@ -1,11 +1,11 @@
 const { Snowflake, Collection } = require('discord.js')
 /**
  * Represents the command.
- * @param {DiscordBot|Module} [module] Should be Module if is command from module or Client if is a command out of module context
+ * @param {ClientDiscordBot|Module} [module] Should be Module if is command from module or Client if is a command out of module context
  * @param {CommandOptions} [data] Data for command
  */
 class Command {
-  constructor (module, { alias, name, description, group = null, script, autoDel = true }) {
+  constructor (module, { alias, name, description, group = null, script, autodelete = true }) {
     /**
      * The instance of DicordBot client
      * @type {DicordBot}
@@ -67,7 +67,7 @@ class Command {
      * @type {Boolean}
      * @readonly
      */
-    this.autoDel = autoDel
+    this.autodelete = autodelete
 
     /**
      * The COllection messages of this command
@@ -114,5 +114,5 @@ module.exports = Command
  * @property {Array} [alias] The alias array
  * @property {string} [group] The group name of command
  * @property {Function} [script] The script main function of command
- * @property {boolean} [autoDel] The status of this command
+ * @property {boolean} [autodelete] The status of this command
  */

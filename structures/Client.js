@@ -9,9 +9,9 @@ require('./extends')
  * Represents the Discord bot in logged in client’s.
  * @extends {Client}
  */
-class DiscordBot extends Client {
+class ClientDiscordBot extends Client {
   /**
-   * @param {Object} DiscordBotOptions The data of client
+   * @param {Object} ClientDiscordBotOptions The data of client
    */
   constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', local = 'en', dbname = null, customHelp = { title: null, description: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
     super()
@@ -109,7 +109,7 @@ class DiscordBot extends Client {
    * @type {DiscordBot}
    * @readonly
    */
-  static get DiscordBot () { return DiscordBot }
+  static get DiscordBot () { return ClientDiscordBot }
 
   /**
    * The Modules class
@@ -211,21 +211,27 @@ class DiscordBot extends Client {
   }
 
   /**
-   * Handle error
-   * @private
+   * Handle error, emit
+   * @param {Error} [error] Error
    */
   handleError (error) {
     if (!this.emit) throw error
+
+    /**
+     * Emitted for general errors information.
+     * @event ClientDiscordBot#error
+     * @param {Error} error The error
+     */
     return this.emit('error', error)
   }
 }
 
-module.exports = DiscordBot
+module.exports = ClientDiscordBot
 
 /**
  * DiscordBot Options.
  * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
- * @typedef {Object} DiscordBotOptions
+ * @typedef {Object} ClientDiscordBotOptions
  * @property {Snowflake} [ggid] Id of the developer’s guild
  * @property {Snowflake} [gcid] Id of the developer’s channel on developer’s guild
  * @property {string} [dev] Name of the main developer
@@ -299,20 +305,3 @@ module.exports = DiscordBot
  * @property {string} [iconUrl] The icon URL of the footer
  */
 
-/**
- * Emitted for general warnings.
- * @event DiscordBot#warn
- * @param {string} info The warning
- */
-
-/**
- * Emitted for general debugging information.
- * @event DiscordBot#debug
- * @param {string} info The debug information
- */
-
-/**
- * Emitted for general errors information.
- * @event DiscordBot#error
- * @param {Error} error The error
- */

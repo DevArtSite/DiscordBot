@@ -76,13 +76,13 @@ class CommandMessage extends Message {
     if (!this.prefixed()) return
     if (!this.isCommandRequest()) return
     await this.command.execute(this, this.args).catch(error => this.client.handleError(error))
-    if (this.command.autoDel) this.delete().catch(error => this.client.handleError(error))
+    if (this.command.autodelete) this.delete().catch(error => this.client.handleError(error))
     this.command.messages.set(this.id, this)
     this.client.emit('debug', `[DiscordBot => CommandMessage] ${this.command.name} Executed at ${new Date()}`)
 
     /**
      * Emitted whenever a command is executed.
-     * @event DiscordBot#Command
+     * @event ClientDiscordBot#command
      * @param {CommandMessage} command The guild that has become unavailable
      */
     this.client.emit('command', this)
@@ -99,7 +99,7 @@ class CommandMessage extends Message {
    * // Reply to a message
    * message.reply('Hey, I\'m a reply!')
    *   .then(() => console.log(`Sent a reply to ${message.author.username}`))
-   *   .catch(console.error);
+   *   .catch(console.error)
    */
   async reply (content, options) {
     this.response = await super.reply(content, options)
