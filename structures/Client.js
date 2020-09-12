@@ -61,7 +61,7 @@ class ClientDiscordBot extends Client {
     this.customHelp = customHelp
 
     /**
-     * Default module selection enabled on login
+     * Default module selection enabled when client login
      * @type {string[]|boolean}
      * @readonly
      */

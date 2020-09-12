@@ -38,8 +38,8 @@ class Modules extends Collection {
 
   /**
    * Instantiates all new modules in the module folder
-   * @param {resolvedPath} [modulesPath] Resolved path to module folder
    * @private
+   * @param {resolvedPath} [modulesPath] Resolved path to module folder
    */
   async load (modulesPath) {
     const modulesStats = await fsp.stat(modulesPath).catch(error => this.client.handleError(error))
@@ -69,6 +69,7 @@ class Modules extends Collection {
 
   /**
    * Test if it is a default module and should be enabled
+   * @private
    * @param {resolvedPath} [path] Resolved path to default module folder
    * @param {string} [name] Name of module
    * @returns {boolean}
@@ -88,7 +89,7 @@ class Modules extends Collection {
   }
 
   /**
-   * Call default and custom module instantiation
+   * Call default and custom module instantiation when client login
    * @private
    */
   async init () {
@@ -97,7 +98,7 @@ class Modules extends Collection {
   }
 
   /**
-   * Runs the main scripts of all modules
+   * Runs the main scripts of all modules when client login
    * @private
    */
   async start () {

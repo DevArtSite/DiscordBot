@@ -1,5 +1,5 @@
 
-const { Message } = require('discord.js')
+const { Message, Collection, MessageEmbed } = require('discord.js')
 /**
  * Represents the Message with command properties.
  * @extends {Message}
@@ -9,13 +9,13 @@ class CommandMessage extends Message {
     super(client, data, channel)
 
     /**
-     * The response of this message
-     * @type {CommandMessage}
+     * The responses Collection of this message if this message is a command request
+     * @type {Collection}
      */
-    this.response = null
+    this.responses = new Collection()
 
     /**
-     * The request of this message
+     * The request of this message if this message is a command response
      * @type {CommandMessage}
      */
     this.request = null
@@ -24,7 +24,7 @@ class CommandMessage extends Message {
   }
 
   /**
-   * Check if message is a Commmand response
+   * Check if message is a commmand response
    * @type {boolean}
    */
   get isCommandResponse () {
@@ -32,11 +32,11 @@ class CommandMessage extends Message {
   }
 
   /**
-   * Check if message is a Commmand request
+   * Check if message is a commmand request
    * @type {boolean}
    */
   get isCommandRequest () {
-    return (!this.author.bot && this.prefixed() && this.command)
+    return (!this.author.bot && this.prefixed && this.command)
   }
 
   /**
@@ -60,8 +60,12 @@ class CommandMessage extends Message {
    * @type {Command}
    */
   get command () {
-    const cmd = this.args.shift().toLowerCase()
-    const command = this.client.commands.find(command => command.alias.find(str => (str === cmd)))
+    const cmd = this.args.shift()
+    const command = this.client.commands.find(command => {
+      return command.alias.find(str => {
+        return (str === cmd)
+      })
+    })
     return (!command) ? (this.request.command) ? this.request.command : null : command
   }
 
@@ -71,7 +75,7 @@ class CommandMessage extends Message {
    * @returns {Promise<void>}
    */
   async execute () {
-    if (!this.isCommandRequest()) return
+    if (!this.isCommandRequest) return
     await this.command.execute(this, this.args).catch(error => this.client.handleError(error))
     if (this.command.autodelete) this.delete().catch(error => this.client.handleError(error))
     this.command.messages.set(this.id, this)
@@ -87,8 +91,8 @@ class CommandMessage extends Message {
 
   /**
    * Replies to the message.
-   * Set this response properties with the returned CommandMessage
    * Set request properties to the returned CommandMessage
+   * Set this response properties with the returned CommandMessage
    * @param {StringResolvable|APIMessage} [content=''] The content for the message
    * @param {MessageOptions|MessageAdditions} [options={}] The options to provide
    * @returns {Promise<CommandMessage|CommandMessage[]>}
@@ -98,10 +102,34 @@ class CommandMessage extends Message {
    *   .then(() => console.log(`Sent a reply to ${message.author.username}`))
    *   .catch(console.error)
    */
-  async reply (content, options) {
-    this.response = await super.reply(content, options)
-    this.response.request = this
-    return this.response
+  async reply (content = '', options = {}) {
+    const response = await super.reply(content, options).catch(error => this.client.handleError(error))
+    response.request = this
+    this.responses.set(response.id, response)
+    return response
+  }
+
+  /**
+   * Replies embed to the message.
+   * Set request properties to the returned CommandMessage
+   * Set this response properties with the returned CommandMessage
+   * @param {MessageEmbed} [embed] The embed for the message
+   * @param {MessageOptions|MessageAdditions} [options={}] The options to provide
+   * @returns {Promise<CommandMessage|CommandMessage[]>}
+   * @example
+   * // Reply embed to a message
+   * const embed = client.MessageEmbed({ title: 'My cool title', description: 'My awsome description' })
+   *   .addField('field name', 'field value')
+   * message.reply(embed)
+   *   .then(() => console.log(`Sent a reply embed to ${message.author.username}`))
+   *   .catch(console.error)
+   */
+  async replyEmbed (embed, options) {
+    if (!(embed instanceof MessageEmbed)) throw new Error('embed must be an instance of MessageEmbed')
+    const response = await this.channel.send(`${this.member}`, embed, options).catch(error => this.client.handleError(error))
+    response.request = this
+    this.responses.set(response.id, response)
+    return response
   }
 }
 
@@ -132,4 +160,10 @@ module.exports = CommandMessage
  * Additional items that can be sent with a message.
  * @see {@link https://discord.js.org/#/docs/main/stable/typedef/MessageAdditions}
  * @typedef {MessageEmbed|MessageAttachment|Array<MessageEmbed|MessageAttachment>} MessageAdditions
+ */
+
+/**
+ * Represents an embed in a message (image/video preview, rich embed, etc.)
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/MessageEmbed}
+ * @typedef {Object} MessageEmbed
  */
