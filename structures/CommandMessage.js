@@ -1,7 +1,7 @@
 
 const { Message } = require('discord.js')
 /**
- * Represents the Discord bot in logged in client’s.
+ * Represents the Message with command properties.
  * @see {@link https://discord.js.org/#/docs/main/stable/class/Message}
  * @extends {Message}
  */
@@ -12,10 +12,18 @@ class CommandMessage extends Message {
   }
 
   /**
-   * Check if message is a Commmand
+   * Check if message is a Commmand response
    * @type {boolean}
    */
-  get isCommand () {
+  get isCommandResponse () {
+    return (this.author.bot && this.author.id === this.client.user.id)
+  }
+
+  /**
+   * Check if message is a Commmand request
+   * @type {boolean}
+   */
+  get isCommandRequest () {
     return (this.command)
   }
 
@@ -51,7 +59,7 @@ class CommandMessage extends Message {
    * @returns {Promise}
    */
   async execute () {
-    if (!this.isCommand()) return
+    if (!this.isCommandRequest()) return
     await this.command.execute(this, this.args).catch(error => this.client.handleError(error))
     if (this.command.autoDel) this.delete().catch(error => this.client.handleError(error))
     this.command.messages.set(this.id, this)
