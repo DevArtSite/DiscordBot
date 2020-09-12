@@ -250,7 +250,7 @@ module.exports = ClientDiscordBot
  * @property {ColorResolvable} [color=RANDOM] The color of the embed
  * @property {string} [url=client.user.displayAvatarURL()] The URL of the thumbnail
  * @property {Date|number} [timestamp=Date.now()] The timestamp or date
- * @property {DataMessageFooter} [footer] The footer of this embed
+ * @property {EmbedDataFooter} [footer] The footer of this embed
  */
 
 /**
@@ -275,11 +275,17 @@ module.exports = ClientDiscordBot
 /**
  * A Twitter snowflake, except the epoch is 2015-01-01T00:00:00.000Z
  * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
- * @typedef {Object} Snowflake
+ * @typedef {string} Snowflake
  */
 
 /**
  * Mongodb connection
  * @see {@link https://mongoosejs.com/docs/api/connection.html#connection_Connection}
  * @typedef {Object} MongooseConnection
+ */
+
+/**
+ * A Map with additional utility methods. This is used throughout discord.js rather than Arrays for anything that has an ID, for significantly improved performance and ease-of-use.
+ * @see {@link https://discord.js.org/#/docs/collection/master/class/Collection}
+ * @typedef {Class} Collection
  */
