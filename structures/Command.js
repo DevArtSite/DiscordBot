@@ -5,20 +5,20 @@ const { Snowflake, Collection } = require('discord.js')
  * @param {CommandOptions} [data] Data for command
  */
 class Command {
-  constructor (module, { alias, name, description, group = null, script, autodelete = true }) {
+  constructor (moduleOrClient, { alias, name, description, group = null, script, autodelete = true }) {
     /**
      * The instance of DicordBot client
-     * @type {DicordBot}
+     * @type {ClientDiscordBot}
      * @readonly
      */
-    this.client = (!module.client) ? module : module.client
+    this.client = (!moduleOrClient.client) ? moduleOrClient : moduleOrClient.client
 
     /**
      * The instance of Module
      * @type {Module}
      * @readonly
      */
-    this.module = (!module.client) ? null : module
+    this.module = (!moduleOrClient.client) ? null : moduleOrClient
 
     /**
      * The id of this command
@@ -29,14 +29,14 @@ class Command {
 
     /**
      * The name of command
-     * @type {String}
+     * @type {string}
      * @readonly
      */
     this.name = name
 
     /**
      * The description of command
-     * @type {String}
+     * @type {string}
      * @readonly
      */
     this.description = description
@@ -50,7 +50,7 @@ class Command {
 
     /**
      * The group name of command
-     * @type {String}
+     * @type {string}
      * @readonly
      */
     this.group = group
@@ -64,7 +64,7 @@ class Command {
 
     /**
      * The status of this command
-     * @type {Boolean}
+     * @type {boolean}
      * @readonly
      */
     this.autodelete = autodelete
@@ -91,7 +91,7 @@ class Command {
   }
 
   /**
-   * Push this command to client & module commands collection
+   * Push this command to client & module commands collection if available
    * @private
    */
   push () {

@@ -2,7 +2,6 @@
 const { Message } = require('discord.js')
 /**
  * Represents the Message with command properties.
- * @see {@link https://discord.js.org/#/docs/main/stable/class/Message}
  * @extends {Message}
  */
 class CommandMessage extends Message {
@@ -37,7 +36,7 @@ class CommandMessage extends Message {
    * @type {boolean}
    */
   get isCommandRequest () {
-    return (this.command)
+    return (!this.author.bot && this.prefixed() && this.command)
   }
 
   /**
@@ -57,7 +56,7 @@ class CommandMessage extends Message {
   }
 
   /**
-   * Get Command message
+   * Get Command message from current message or request message
    * @type {Command}
    */
   get command () {
@@ -67,13 +66,11 @@ class CommandMessage extends Message {
   }
 
   /**
-   * The execution of command if message is it
+   * The execution of command script if this message is command
    * @private
-   * @returns {Promise}
+   * @returns {Promise<void>}
    */
   async execute () {
-    if (this.author.bot) return
-    if (!this.prefixed()) return
     if (!this.isCommandRequest()) return
     await this.command.execute(this, this.args).catch(error => this.client.handleError(error))
     if (this.command.autodelete) this.delete().catch(error => this.client.handleError(error))

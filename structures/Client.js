@@ -61,7 +61,7 @@ class ClientDiscordBot extends Client {
     this.customHelp = customHelp
 
     /**
-     * Default module selection enabled
+     * Default module selection enabled on login
      * @type {string[]|boolean}
      * @readonly
      */
@@ -76,7 +76,7 @@ class ClientDiscordBot extends Client {
 
     /**
      * Modules collection of client
-     * @type {Commands}
+     * @type {Modules}
      * @readonly
      */
     this.modules = new Modules(this, modulesPath)
@@ -101,60 +101,9 @@ class ClientDiscordBot extends Client {
     this.db = null
   }
 
-  /**
-   * The DiscordBot class
-   * @type {DiscordBot}
-   * @readonly
-   */
-  static get DiscordBot () { return ClientDiscordBot }
-
-  /**
-   * The Modules class
-   * @type {Modules}
-   * @private
-   * @readonly
-   */
-  static get Modules () { return Modules }
-
-  /**
-   * The Module class
-   * @type {Module}
-   * @private
-   * @readonly
-   */
-  static get Module () { return Module }
-
-  /**
-   * The Commands class
-   * @type {Commands}
-   * @private
-   * @readonly
-   */
-  static get Commands () { return Commands }
-
-  /**
-   * The Command class
-   * @type {Command}
-   * @readonly
-   */
-  static get Command () { return Command }
+  get Module () { return Module }
+  get Commands () { return Commands }
   get Command () { return Command }
-
-  /**
-   * The Structures class
-   * @type {Structures}
-   * @see {@link https://discord.js.org/#/docs/main/stable/class/Structures}
-   * @readonly
-   */
-  static get Structures () { return Structures }
-
-  /**
-   * The Snowflake class
-   * @type {SnowflakeUtil}
-   * @see {@link https://discord.js.org/#/docs/main/stable/class/SnowflakeUtil}
-   * @readonly
-   */
-  static get Snowflake () { return Snowflake }
 
   /**
    * The MessageEmbed class
@@ -261,12 +210,6 @@ module.exports = ClientDiscordBot
  */
 
 /**
- * The Structures class
- * @see {@link https://discord.js.org/#/docs/main/stable/class/Structures}
- * @typedef {Object} Structures
- */
-
-/**
  * Can be a number, hex string, an RGB array like:
  * @see {@link https://discord.js.org/#/docs/main/stable/typedef/ColorResolvable}
  * @typedef {string|number|number[]} ColorResolvable
@@ -287,5 +230,11 @@ module.exports = ClientDiscordBot
 /**
  * A Map with additional utility methods. This is used throughout discord.js rather than Arrays for anything that has an ID, for significantly improved performance and ease-of-use.
  * @see {@link https://discord.js.org/#/docs/collection/master/class/Collection}
- * @typedef {Class} Collection
+ * @typedef {Object} Collection
+ */
+
+/**
+ * Represents a message on Discord.
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/Message}
+ * @typedef {Object} Message
  */
