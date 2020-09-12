@@ -11,7 +11,7 @@ require('./extends')
  */
 class ClientDiscordBot extends Client {
   /**
-   * @param {Object} ClientDiscordBotOptions The data of client
+   * @param {ClientDiscordBotOptions} ClientDiscordBotOptions The data of client
    */
   constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', local = 'en', dbname = null, customHelp = { title: null, description: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
     super()
