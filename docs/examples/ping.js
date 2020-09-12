@@ -10,12 +10,10 @@ const client = new DiscordBot({
 const myCommand = new Command(client, {
   alias: ['ping'],
   name: ':blue_circle: Ping',
-  description: [
-    ':arrow_right: ``ping`` Respond Pong!!.'
-  ],
+  description: [':arrow_right: ``ping`` Respond Pong!!.'],
   group: 'ping',
   script: async function (message) {
-    message.channel.send('Pong!!')
+    return message.channel.send('Pong!!')
   }
 })
 

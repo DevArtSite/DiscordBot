@@ -13,7 +13,7 @@ class DiscordBot extends Client {
   /**
    * @param {Object} DiscordBotOptions The data of client
    */
-  constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', dbname = null, customHelp = { title: null, description: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
+  constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', local = 'en', dbname = null, customHelp = { title: null, description: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
     super()
     /**
      * The ggid (global guild id) is the id of the developer’s guild
@@ -42,6 +42,12 @@ class DiscordBot extends Client {
      * @type {string}
      */
     this.prefix = prefix
+
+    /**
+     * The local is a determining the language to be used by the client
+     * @type {string}
+     */
+    this.local = local
 
     /**
      * The dbname is a name of mongo database
