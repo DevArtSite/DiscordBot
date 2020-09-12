@@ -6,6 +6,7 @@ module.exports = [{
   ],
   group: 'ping',
   script: async function (message) {
+    console.log(this)
     message.reply('Pong!!')
   }
 }]
