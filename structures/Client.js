@@ -11,14 +11,13 @@ require('./extends')
  */
 class ClientDiscordBot extends Client {
   /**
-   * @param {ClientDiscordBotOptions} ClientDiscordBotOptions The data of client
+   * @param {ClientDiscordBotOptions} options The data of client
    */
   constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', local = 'en', dbname = null, customHelp = { title: null, description: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
     super()
     /**
      * The ggid (global guild id) is the id of the developer’s guild
      * @type {Snowflake}
-     * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
      * @readonly
      */
     this.ggid = ggid
@@ -26,7 +25,6 @@ class ClientDiscordBot extends Client {
     /**
      * The gcid (global channel id) is the id of the developer’s channel on developer’s guild
      * @type {Snowflake}
-     * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
      * @readonly
      */
     this.gcid = gcid
@@ -96,7 +94,6 @@ class ClientDiscordBot extends Client {
 
     /**
      * Mongodb connection
-     * @see {@link https://mongoosejs.com/docs/api/connection.html#connection_Connection}
      * @type {MongooseConnection}
      * @private
      * @readonly
@@ -183,7 +180,6 @@ class ClientDiscordBot extends Client {
 
   /**
    * The MessageEmbed class
-   * @see {@link https://mongoosejs.com/docs/api/connection.html#connection_Connection}
    * @private
    * @returns {MongooseConnection}
    */
@@ -230,7 +226,6 @@ module.exports = ClientDiscordBot
 
 /**
  * DiscordBot Options.
- * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
  * @typedef {Object} ClientDiscordBotOptions
  * @property {Snowflake} [ggid] Id of the developer’s guild
  * @property {Snowflake} [gcid] Id of the developer’s channel on developer’s guild
@@ -249,7 +244,6 @@ module.exports = ClientDiscordBot
 
 /**
  * Data MessageEmbed.
- * @see {@link https://discord.js.org/#/docs/main/stable/typedef/ColorResolvable}
  * @typedef {Object} EmbedData
  * @property {string} [title] The title of embed
  * @property {string} [description] The description of embed
@@ -260,48 +254,32 @@ module.exports = ClientDiscordBot
  */
 
 /**
- * Can be a number, hex string, an RGB array like:
- * ```js
- * [255, 0, 255] // purple
- * ```
- * or one of the following strings:
- * - `DEFAULT`
- * - `WHITE`
- * - `AQUA`
- * - `GREEN`
- * - `BLUE`
- * - `YELLOW`
- * - `PURPLE`
- * - `LUMINOUS_VIVID_PINK`
- * - `GOLD`
- * - `ORANGE`
- * - `RED`
- * - `GREY`
- * - `DARKER_GREY`
- * - `NAVY`
- * - `DARK_AQUA`
- * - `DARK_GREEN`
- * - `DARK_BLUE`
- * - `DARK_PURPLE`
- * - `DARK_VIVID_PINK`
- * - `DARK_GOLD`
- * - `DARK_ORANGE`
- * - `DARK_RED`
- * - `DARK_GREY`
- * - `LIGHT_GREY`
- * - `DARK_NAVY`
- * - `BLURPLE`
- * - `GREYPLE`
- * - `DARK_BUT_NOT_BLACK`
- * - `NOT_QUITE_BLACK`
- * - `RANDOM`
- * @typedef {string|number|number[]} ColorResolvable
- */
-
-/**
  * Data MessageEmbed Footer.
  * @typedef {Object} EmbedDataFooter
  * @property {string} [text] text The text of the footer
  * @property {string} [iconUrl] The icon URL of the footer
  */
 
+/**
+ * The Structures class
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/Structures}
+ * @typedef {Object} Structures
+ */
+
+/**
+ * Can be a number, hex string, an RGB array like:
+ * @see {@link https://discord.js.org/#/docs/main/stable/typedef/ColorResolvable}
+ * @typedef {string|number|number[]} ColorResolvable
+ */
+
+/**
+ * A Twitter snowflake, except the epoch is 2015-01-01T00:00:00.000Z
+ * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
+ * @typedef {Object} Snowflake
+ */
+
+/**
+ * Mongodb connection
+ * @see {@link https://mongoosejs.com/docs/api/connection.html#connection_Connection}
+ * @typedef {Object} MongooseConnection
+ */
