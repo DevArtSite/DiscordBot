@@ -80,7 +80,7 @@ class Command {
    * @param {Array} [args] Arguments
    */
   async execute (message, args) {
-    return await this.script(message, args).catch(error => this.client.handleError(error))
+    return this.script(message, args).catch(error => this.client.handleError(error))
   }
 
   /**
@@ -102,7 +102,7 @@ module.exports = Command
  * @see {@link https://discord.js.org/#/docs/main/stable/typedef/Snowflake}
  * @typedef {Object} CommandOptions
  * @property {Snowflake} [id] The id of this command
- * @property {String} [name] The name of command
+ * @property {string} [name] The name of command
  * @property {string} [description] The description of command
  * @property {Array} [alias] The alias array
  * @property {string} [group] The group name of command
