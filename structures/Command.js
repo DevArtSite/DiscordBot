@@ -1,11 +1,11 @@
 const { Snowflake } = require('discord.js')
 /**
  * Represents the command.
- * @param {DicordBot|Module} [module] Should be Module if is command from module or Client if is a command out of module context
+ * @param {DiscordBot|Module} [module] Should be Module if is command from module or Client if is a command out of module context
  * @param {CommandOptions} [data] Data for command
  */
 class Command {
-  constructor (module = null, { alias = [], name = '', description = '', group = null, script = () => null, autoDel = true }) {
+  constructor (module, { alias, name, description, group = null, script, autoDel = true }) {
     /**
      * The instance of DicordBot client
      * @type {DicordBot}
