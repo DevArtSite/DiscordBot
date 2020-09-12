@@ -12,26 +12,56 @@ class CommandMessage extends Message {
   }
 
   /**
+   * Check if message is a Commmand
+   * @type {boolean}
+   */
+  get isCommand () {
+    return (this.command)
+  }
+
+  /**
+   * Check if message content contain client prefix
+   * @type {boolean}
+   */
+  get prefixed () {
+    return this.content.startsWith(this.client.prefix)
+  }
+
+  /**
+   * Get arguments from content message
+   * @type {Array}
+   */
+  get args () {
+    return this.content.slice(this.client.prefix.length).trim().split(/ +/)
+  }
+
+  /**
+   * Get Command from message content
+   * @type {Command}
+   */
+  get command () {
+    if (this.author.bot || !this.guild || !this.prefixed()) return
+    const cmd = this.args.shift().toLowerCase()
+    return this.client.commands.find(command => command.alias.find(str => (str === cmd)))
+  }
+
+  /**
    * The execution of command if message is it
+   * @private
    * @returns {Promise}
    */
   async execute () {
-    if (this.author.bot || !this.guild || !this.content.startsWith(this.client.prefix)) return
-    const args = this.content.slice(this.client.prefix.length).trim().split(/ +/)
-    const cmd = args.shift().toLowerCase()
-    const command = this.client.commands.find(command => command.alias.find(str => (str === cmd)))
-    if (!command) return
-    this.command = command
-    await this.command.execute(this, args).catch(error => this.client.handleError(error))
+    if (!this.isCommand()) return
+    await this.command.execute(this, this.args).catch(error => this.client.handleError(error))
     if (this.command.autoDel) this.delete().catch(error => this.client.handleError(error))
     this.client.emit('debug', `[DiscordBot => CommandMessage] ${this.command.name} Executed at ${new Date()}`)
 
     /**
      * Emitted whenever a command is executed.
      * @event DiscordBot#Command
-     * @param {Command} command The guild that has become unavailable
+     * @param {CommandMessage} this The guild that has become unavailable
      */
-    this.client.emit('command', this, command, args)
+    this.client.emit('command', this)
   }
 }
 

@@ -107,5 +107,5 @@ module.exports = Command
  * @property {Array} [alias] The alias array
  * @property {string} [group] The group name of command
  * @property {Function} [script] The script main function of command
- * @property {Boolean} [autoDel] The status of this command
+ * @property {boolean} [autoDel] The status of this command
  */
