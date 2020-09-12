@@ -8,6 +8,19 @@ const { Message } = require('discord.js')
 class CommandMessage extends Message {
   constructor (client, data, channel) {
     super(client, data, channel)
+
+    /**
+     * The response of this message
+     * @type {CommandMessage}
+     */
+    this.response = null
+
+    /**
+     * The request of this message
+     * @type {CommandMessage}
+     */
+    this.request = null
+
     this.execute().catch(error => this.client.handleError(error))
   }
 
@@ -71,6 +84,25 @@ class CommandMessage extends Message {
      * @param {CommandMessage} command The guild that has become unavailable
      */
     this.client.emit('command', this)
+  }
+
+  /**
+   * Replies to the message.
+   * Set this response properties with the returned CommandMessage
+   * Set request properties to the returned CommandMessage
+   * @param {StringResolvable|APIMessage} [content=''] The content for the message
+   * @param {MessageOptions|MessageAdditions} [options={}] The options to provide
+   * @returns {Promise<CommandMessage|CommandMessage[]>}
+   * @example
+   * // Reply to a message
+   * message.reply('Hey, I\'m a reply!')
+   *   .then(() => console.log(`Sent a reply to ${message.author.username}`))
+   *   .catch(console.error);
+   */
+  async reply (content, options) {
+    this.response = await super.reply(content, options)
+    this.response.request = this
+    return this.response
   }
 }
 
