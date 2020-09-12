@@ -119,13 +119,14 @@ module.exports = Command
 
 /**
  * Main function of a command
- * ``// In this context "this" is the instance of the command
- *   // In this function "this" can be used
- *   async function () { }
+ * ```js
+ * // In this function "this" can be used
+ * async function () { }
  *
- *   // In this function "this" cannot be used
- *   async () => { }
- * ``
+ * // In this function "this" cannot be used
+ * async () => { }
+ * ```
+ * - In this function "this" is the instance of the command
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
  * @typedef {Function} CommandScriptFunction
  */
