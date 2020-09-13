@@ -2,6 +2,7 @@ const fs = require('fs')
 const { Snowflake } = require('discord.js')
 const Commands = require('./Commands')
 const Command = require('./Command')
+const CommandResponses = require('./CommandResponses')
 /**
  * Represents the Module.
  */
@@ -72,7 +73,7 @@ class Module {
 
     /**
      * Commands by inclusion of this module
-     * @type {Array}
+     * @type {Array<Command>}
      * @readonly
      */
     this._commands = (this.existFile('commands')) ? require(`${this.path}/commands`) : []
@@ -86,7 +87,7 @@ class Module {
 
     /**
      * Commands by inclusion of this module
-     * @type {Array}
+     * @type {Object<Object|string|*>}
      * @readonly
      */
     this.responses = (this.existFile('responses')) ? require(`${this.path}/responses`) : []
@@ -113,7 +114,7 @@ class Module {
 
   /**
    * Run the main script of this module
-   * @returns {Promise} ModuleScriptFunction
+   * @returns {Promise<ModuleScriptFunction>} ModuleScriptFunction
    */
   async run () {
     this.client.emit('debug', `[DiscordBot => Module] ${this.name} Run`)

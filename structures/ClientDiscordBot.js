@@ -13,7 +13,7 @@ class ClientDiscordBot extends Client {
   /**
    * @param {ClientDiscordBotOptions} options The data of client
    */
-  constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', local = 'en', dbname = null, customHelp = { title: null, description: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
+  constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', local = 'en', dbname = null, customHelp = { title: null, description: null, contentlimited: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
     super()
     /**
      * The ggid (global guild id) is the id of the developer’s guild
@@ -191,8 +191,27 @@ module.exports = ClientDiscordBot
 /**
  * HelpEmbedOptions Options.
  * @typedef {Object} HelpEmbedOptions
- * @property {string} [title] Title embed of command
- * @property {string} [description] Description embed of Help command
+ * @property {TitleHelpFunction} [title] Title embed of command
+ * @property {DescriptionHelpFunction} [description] Description embed of Help command
+ * @property {ContentLimited} [contentlimited] Content description if the real description of command
+ */
+
+/**
+ * TitleHelpFunction function.
+ * @typedef {Function} TitleHelpFunction
+ * @param {string} [tag=ClientDiscordBot.user.tag] Client user tag
+ * @param {string} [group=Command.group|undefined] Command group name
+ */
+
+/**
+ * DescriptionHelpFunction function.
+ * @typedef {Function} DescriptionHelpFunction
+ * @param {string} [prefix=ClientDiscordBot.prefix] Client prefix
+ */
+
+/**
+ * ContentLimited is content description if the real description of command.
+ * @typedef {string} ContentLimited
  */
 
 /**

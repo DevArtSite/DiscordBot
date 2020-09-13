@@ -47,7 +47,7 @@ client.login(token)
 ```
  - By default DiscordBot integrates a [Help Module](https://github.com/DevArtSite/DiscordBot/tree/master/modules/Help)
 
-#### options
+## options
 
  - `ggid` - **String** (*global guild id*) Id of the developer’s guild *(default "``null``")*
  - `gcid` - **String** (*global channel id*) Id of the developer’s channel on developer’s guild *(default "``null``")*
@@ -60,9 +60,9 @@ client.login(token)
  - `modulesPath` - **String** Your modules folder path *(default "``null``")*
  - `useDefaultModule` - **Boolean|Array** Module selection enabled *(default "``['*']``")*
 
-## Module implementation
+# Module implementation
 ```sh
-YourDiscordBot
+DiscordBot-project
 ├── modules
 │   ├── index.js
 │   ├── commands.js
@@ -72,13 +72,13 @@ YourDiscordBot
 └── index.js
 ```
 
-## ToDo
+# ToDo
 - Client:
   - ✓ Base discord.js
   - ✓ MongoDb connection
   - ✓ Initialisation module and start main script
   - ✓ Message embed default data assignation
-  - Handle local for all message (debug, error, etc...)
+  - ☐ Handle i18n locals
 - Modules
   - ✓ Check module existance
   - ✓ Check module components
@@ -87,3 +87,4 @@ YourDiscordBot
     - ✓ Events
     - ✓ Methods
   - ✓ Start main script
+  - ☐ Handle i18n locals

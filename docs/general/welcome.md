@@ -88,7 +88,7 @@ client.login('my token').then(() => {
 
 # Module implementation
 ```sh
-YourDiscordBot
+DiscordBot-project
 ├── modules
 │   ├── index.js
 │   ├── commands.js

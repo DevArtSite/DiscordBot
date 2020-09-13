@@ -10,7 +10,7 @@ class CommandMessage extends Message {
 
     /**
      * The responses Collection of this message if this message is a command request
-     * @type {Collection}
+     * @type {Collection<CommandMessage>}
      */
     this.responses = new Collection()
 
@@ -49,7 +49,7 @@ class CommandMessage extends Message {
 
   /**
    * Get arguments from content message
-   * @type {Array}
+   * @type {Array<string>}
    */
   get args () {
     return this.content.slice(this.client.prefix.length).trim().split(/ +/)

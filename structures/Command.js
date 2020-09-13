@@ -43,7 +43,7 @@ class Command {
 
     /**
      * The alias array
-     * @type {Array}
+     * @type {Array<string>}
      * @readonly
      */
     this.alias = alias
@@ -71,7 +71,7 @@ class Command {
 
     /**
      * The COllection messages of this command
-     * @type {Collection}
+     * @type {Collection<CommandMessage>}
      * @readonly
      */
     this.messages = new Collection()
@@ -84,7 +84,7 @@ class Command {
    * Execute script command
    * @param {CommandMessage} [message] Instance of CommandMessage
    * @private
-   * @param {Array} [args] Arguments
+   * @param {Array<string>} [args] Arguments
    */
   async execute (message, args) {
     return this.script(message, args).catch(error => this.client.handleError(error))

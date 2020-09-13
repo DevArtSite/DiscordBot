@@ -13,6 +13,7 @@
     "discord.js": "^12.3.1",
     "discord.js-docgen": "git+https://github.com/discordjs/docgen.git",
     "dotenv": "^8.2.0",
+    "i18n": "^0.13.2",
     "mongoose": "^5.10.3"
   },
   "directories": {

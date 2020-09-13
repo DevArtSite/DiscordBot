@@ -17,7 +17,7 @@ class Commands extends Collection {
 
   /**
    * Groups commands by group
-   * @returns {Object}
+   * @returns {Object<Command[]>}
    */
   groups () {
     const groups = {}
