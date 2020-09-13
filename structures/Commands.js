@@ -9,7 +9,7 @@ class Commands extends Collection {
 
     /**
      * The instance of ClientDicordBot client
-     * @type {ClientDicordBot}
+     * @type {ClientDiscordBot}
      * @readonly
      */
     this.client = client

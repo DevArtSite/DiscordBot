@@ -42,12 +42,6 @@ class ClientDiscordBot extends Client {
     this.prefix = prefix
 
     /**
-     * The local is a determining the language to be used by the client
-     * @type {string}
-     */
-    this.local = local
-
-    /**
      * The dbname is a name of mongo database
      * @type {string}
      * @readonly
