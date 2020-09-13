@@ -58,7 +58,7 @@ class Module {
 
     /**
      * The methods of this module
-     * @type {MethodsObject}
+     * @type {ModuleMethodsObject}
      * @readonly
      */
     this.methods = (this.existFile('methods')) ? require(`${this.path}/methods`) : {}
@@ -73,7 +73,7 @@ class Module {
 
     /**
      * Events by inclusion of this module
-     * @type {EventsObject}
+     * @type {ModuleEventsObject}
      * @readonly
      */
     this._events = (this.existFile('events')) ? require(`${this.path}/events`) : []
@@ -127,7 +127,6 @@ module.exports = Module
  * async function () { }
  * // or
  * function () { }
- *
  * // In this function "this" cannot be used and return that: {}, an object unusable
  * asyn () => { }
  * // or
@@ -141,44 +140,46 @@ module.exports = Module
 /**
  * The Methods object of a module
  * ```js
- * MethodsObject = {
+ * ModuleMethodsObject = {
  *   myMethods: function () {
  *     // Can do stuff with "this.module"
  *   }
  * }
  * ```
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
- * @typedef {Object<MethodsFunction>} MethodsObject
+ * @typedef {Object<ModuleMethodsFunction>} ModuleMethodsObject
  */
 
 /**
- * The Method function of a module
+ * The ModuleMethodsFunction function of a module
  * - In this function "this" is the methods object but when the module is instantiated, it is transferred to the methods object
  * ```js
  * // In this function "this" can be used
  * async function () { }
  * function () { }
- *
  * // In this function "this" cannot be used
  * async () => { }
  * () => { }
  * ```
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
- * @typedef {Function} MethodsFunction
+ * @typedef {Function} ModuleMethodsFunction
  */
 
 /**
- * The EventsObject is object which lists the functions to associate to the available event
+ * The ModuleEventsObject is object which lists the functions to associate to the available event
  * ```js
- * EventsObject = {
- *   ready: {@link https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-ready}
+ * ModuleEventsObject = {
+ *   ready: function () {
+ *    // do stuff
+ *   }
  * }
  * ```
- * @typedef {Object<EventFunction>} EventsObject
+ * @see {@link https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-ready}
+ * @typedef {Object<ModuleEventFunction>} ModuleEventsObject
  */
 
 /**
- * Event object of a module
+ * The ModuleEventFunction is a function
  * - To access to the module you need to use tha in your function
  * ```js
  * const module = this.modules.find(({ name }) => name === 'My module name')
@@ -188,11 +189,10 @@ module.exports = Module
  * // In this function "this" can be used
  * async function () { }
  * function () { }
- *
  * // In this function "this" cannot be used
  * async () => { }
  * () => { }
  * ```
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
- * @typedef {Function} EventFunction
+ * @typedef {Function} ModuleEventFunction
  */
