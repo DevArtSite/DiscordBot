@@ -120,11 +120,15 @@ module.exports = Command
 /**
  * Main function of a command
  * ```js
- * // In this function "this" can be used
+ * // In this function "this" can be used end return the instance of the command
  * async function () { }
+ * // or
+ * function () { }
  *
- * // In this function "this" cannot be used
- * async () => { }
+ * // In this function "this" cannot be used and return that: {}, an object unusable
+ * asyn () => { }
+ * // or
+ * () => { }
  * ```
  * - In this function "this" is the instance of the command
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
