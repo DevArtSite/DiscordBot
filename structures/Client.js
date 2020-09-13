@@ -1,4 +1,4 @@
-const { Client, MessageEmbed } = require('discord.js')
+const { Client, MessageEmbed, ClientUser } = require('discord.js')
 const mongoose = require('mongoose')
 const Module = require('./Module')
 const Modules = require('./Modules')
@@ -113,28 +113,31 @@ class ClientDiscordBot extends Client {
    * client.MessageEmbed({ title: 'My cool title', description: 'My awsome description' })
    */
   MessageEmbed (data = {}) {
-    data = Object.assign({
-      title: null,
-      description: null,
-      color: 'RANDOM',
-      thumbnail: this.user.displayAvatarURL(),
-      timestamp: new Date(),
-      footer: {
-        text: `${this.user.tag} | ${this.dev}`,
-        iconUrl: this.user.displayAvatarURL()
-      }
-    }, data)
+    if (this.user instanceof ClientUser) {
+      data = Object.assign({
+        title: null,
+        description: null,
+        color: 'RANDOM',
+        thumbnail: this.user.displayAvatarURL(),
+        timestamp: new Date(),
+        footer: {
+          text: `${this.user.tag} | ${this.dev}`,
+          iconUrl: this.user.displayAvatarURL()
+        }
+      }, data)
+    }
     return new MessageEmbed(data)
   }
 
   /**
-   * The MessageEmbed class
+   * The mongoDb connection function
    * @private
    * @returns {MongooseConnection}
    */
   async connect () {
     if (!this.dbname) return
-    const mongodb = await mongoose.connect(`mongodb://localhost:27017/${this.dbname}`, this.dbOptions).catch(error => this.handleError(error))
+    const mongodb = await mongoose.connect(`mongodb://localhost:27017/${this.dbname}`, this.dbOptions)
+      .catch(error => { throw error })
     this.db = mongodb.connection
     if (this.db.readyState !== 1) await new Promise(resolve => this.db.on('open', () => resolve(true)))
     this.emit('debug', '[DiscordBot] Mongodb connected')
@@ -143,13 +146,14 @@ class ClientDiscordBot extends Client {
 
   /**
    * Logs the client in, establishing a websocket connection to Discord.
-   * @param {string} [token=this.token] Token of the account to log in with
+   * @param {string} [token] Token of the account to log in with
    * @returns {Promise<string>} Token of the account used
    * @example
    * client.login('my token');
    */
   async login (token) {
-    await this.connect().catch(error => this.handleError(error))
+    await this.connect()
+      .catch(error => { throw error })
     await this.modules.init()
     await this.modules.start()
     return super.login(token)

@@ -71,3 +71,19 @@ YourDiscordBot
 │   └── events.js
 └── index.js
 ```
+
+## ToDo
+- Client:
+  - ✓ Base discord.js
+  - ✓ MongoDb connection
+  - ✓ Initialisation module and start main script
+  - ✓ Message embed default data assignation
+  - Handle local for all message (debug, error, etc...)
+- Modules
+  - ✓ Check module existance
+  - ✓ Check module components
+    - ✓ Main script
+    - ✓ Commands
+    - ✓ Events
+    - ✓ Methods
+  - ✓ Start main script
