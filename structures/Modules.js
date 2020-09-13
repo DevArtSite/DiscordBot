@@ -102,7 +102,10 @@ class Modules extends Collection {
    * @private
    */
   async start () {
-    await Promise.all(this.map(async mod => await mod.run().catch(error => this.client.handleError(error)))).catch(error => this.client.handleError(error))
+    await Promise.all(this.map(async mod => {
+      if (!mod.autostart) return
+      await mod.run().catch(error => this.client.handleError(error))
+    })).catch(error => this.client.handleError(error))
   }
 }
 

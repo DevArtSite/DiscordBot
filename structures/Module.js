@@ -6,10 +6,10 @@ const Command = require('./Command')
  * Represents the Module.
  */
 class Module {
-  constructor (client, { name = null, path = null, author = null, disable = false }) {
+  constructor (client, { name = null, path = null, author = null, disable = false, autostart = true }) {
     /**
      * The instance of ClientDicordBot client
-     * @type {ClientDicordBot}
+     * @type {ClientDiscordBot}
      * @readonly
      */
     this.client = client
@@ -49,6 +49,12 @@ class Module {
      */
     this.disable = disable
 
+    /**
+     * Determines whether the module should be integrated into the bot when it login
+     * @type {boolean}
+     * @readonly
+     */
+    this.autostart = autostart
     /**
      * The main script of this module
      * @type {ModuleScriptFunction}
@@ -121,9 +127,9 @@ class Module {
 module.exports = Module
 
 /**
- * Main function of a module
+ * Main function of a {@link Module}
  * ```js
- * // In this function "this" can be used end return the instance of the module
+ * // In this function "this" can be used end return the instance of the {@link Module}
  * async function () { }
  * // or
  * function () { }
@@ -132,13 +138,13 @@ module.exports = Module
  * // or
  * () => { }
  * ```
- * - In this function "this" is the instance of the module
+ * - In this function "this" is the {@link Module} instance
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
  * @typedef {Function} ModuleScriptFunction
  */
 
 /**
- * The Methods object of a module
+ * The Methods object of a {@link Module}
  * ```js
  * ModuleMethodsObject = {
  *   myMethods: function () {
@@ -151,8 +157,12 @@ module.exports = Module
  */
 
 /**
- * The ModuleMethodsFunction function of a module
- * - In this function "this" is the methods object but when the module is instantiated, it is transferred to the methods object
+ * The ModuleMethodsFunction function of a {@link Module}
+ * - In this function "this" is the methods object but when the {@link Module} is instantiated, it is transferred to the methods object
+  * - To access to the module you need to use that in your function
+ * ```js
+ * this.module
+ * ```
  * ```js
  * // In this function "this" can be used
  * async function () { }
@@ -161,6 +171,7 @@ module.exports = Module
  * async () => { }
  * () => { }
  * ```
+ * - In this function "this" is the an object with "module" variable containing the {@link Module} instance
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
  * @typedef {Function} ModuleMethodsFunction
  */
@@ -180,11 +191,11 @@ module.exports = Module
 
 /**
  * The ModuleEventFunction is a function
- * - To access to the module you need to use tha in your function
+ * - To access to the module you need to use that in your function
  * ```js
  * const module = this.modules.find(({ name }) => name === 'My module name')
  * ```
- * - In this function "this" is the ClientDiscordBot instance
+ * - In this function "this" is the {@link ClientDiscordBot} instance
  * ```js
  * // In this function "this" can be used
  * async function () { }
