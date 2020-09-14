@@ -2,7 +2,6 @@ const fs = require('fs')
 const { Snowflake } = require('discord.js')
 const Commands = require('./Commands')
 const Command = require('./Command')
-const CommandResponses = require('./CommandResponses')
 /**
  * Represents the Module.
  */

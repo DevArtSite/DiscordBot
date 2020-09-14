@@ -76,7 +76,8 @@ class CommandMessage extends Message {
    */
   async execute () {
     if (!this.isCommandRequest) return
-    await this.command.execute(this, this.args).catch(error => this.client.handleError(error))
+    console.log(this.args.slice(1))
+    await this.command.execute(this, this.args.slice(1)).catch(error => this.client.handleError(error))
     if (this.command.autodelete) this.delete().catch(error => this.client.handleError(error))
     this.command.messages.set(this.id, this)
     this.client.emit('debug', `[DiscordBot => CommandMessage] ${this.command.name} Executed at ${new Date()}`)

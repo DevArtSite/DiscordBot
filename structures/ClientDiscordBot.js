@@ -13,7 +13,7 @@ class ClientDiscordBot extends Client {
   /**
    * @param {ClientDiscordBotOptions} options The data of client
    */
-  constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', local = 'en', dbname = null, customHelp = { title: null, description: null, contentlimited: null }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
+  constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', local = 'en', dbname = null, customHelp = { title: null, description: null, contentlimited: null, emojis: { title: ':regional_indicator_h: ', alias: ':regional_indicator_a: ' } }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
     super()
     /**
      * The ggid (global guild id) is the id of the developer’s guild
@@ -187,7 +187,8 @@ module.exports = ClientDiscordBot
  * @typedef {Object} HelpEmbedOptions
  * @property {TitleHelpFunction} [title] Title embed of command
  * @property {DescriptionHelpFunction} [description] Description embed of Help command
- * @property {ContentLimited} [contentlimited] Content description if the real description of command
+ * @property {ContentHelpLimited} [contentlimited] Content description if the real description of command
+ * @property {EmojisHelp} [emojis]
  */
 
 /**
@@ -204,8 +205,15 @@ module.exports = ClientDiscordBot
  */
 
 /**
- * ContentLimited is content description if the real description of command.
- * @typedef {string} ContentLimited
+ * ContentLimited is content description if the real description of command is too long to be displayed.
+ * @typedef {string} ContentHelpLimited
+ */
+
+/**
+ * EmojisHelp function.
+ * @typedef {Object} EmojisHelp
+ * @param {string} [title=':regional_indicator_h: ']
+ * @param {string} [alias=':regional_indicator_a: ']
  */
 
 /**

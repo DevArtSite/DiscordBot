@@ -1,7 +1,7 @@
 module.exports = {
   help: async function (args) {
     const customHelp = this.module.client.customHelp
-    const embedTitle = (tag, group = null) => (customHelp.title) ? customHelp.title(tag, group) : this.module.responses.title(tag, group)
+    const embedTitle = (tag, group = null) => (customHelp.title) ? `${customHelp.emojis.title}${customHelp.title(tag, group)}` : `${customHelp.emojis.title}${this.module.responses.title(tag, group)}`
     const embedDescr = prefix => (customHelp.description) ? customHelp.description(prefix) : this.module.responses.description(prefix)
     const contentlimited = (customHelp.contentlimited) ? customHelp.contentlimited : this.module.responses.contentlimited
     const handleCommand = command => {
@@ -11,12 +11,13 @@ module.exports = {
       } else if (typeof command.description !== 'string') description = contentlimited
       return {
         name: command.name,
-        value: `${description}\n:regional_indicator_a: Alias: [\`\`${command.alias.toString()}\`\`]`
+        value: `${description}\n${customHelp.emojis.alias}Alias: [\`\`${command.alias.toString()}\`\`]`
       }
     }
 
     if (args.length === 0) {
       const groups = this.module.client.commands.groups()
+      console.log(groups)
       return Object.keys(groups).map(groupName => {
         const group = groups[groupName]
         const embed = this.module.client.MessageEmbed({ title: embedTitle(this.module.client.user.tag, groupName), description: embedDescr(this.module.client.prefix) })
