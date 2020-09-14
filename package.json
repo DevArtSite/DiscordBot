@@ -28,5 +28,12 @@
   "bugs": {
     "url": "https://github.com/DevArtSite/DiscordBot/issues"
   },
-  "homepage": "https://github.com/DevArtSite/DiscordBot#readme"
+  "homepage": "https://github.com/DevArtSite/DiscordBot#readme",
+  "keywords": [
+    "discordbot",
+    "discord.js",
+    "discord",
+    "discord-bot",
+    "discordjs"
+  ]
 }

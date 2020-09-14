@@ -78,7 +78,6 @@ DiscordBot-project
   - ✓ MongoDb connection
   - ✓ Initialisation module and start main script
   - ✓ Message embed default data assignation
-  - ☐ Handle i18n locals
 - Modules
   - ✓ Check module existance
   - ✓ Check module components
@@ -86,5 +85,5 @@ DiscordBot-project
     - ✓ Commands
     - ✓ Events
     - ✓ Methods
+    - ✓ Responses
   - ✓ Start main script
-  - ☐ Handle i18n locals
