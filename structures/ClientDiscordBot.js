@@ -53,6 +53,7 @@ class ClientDiscordBot extends Client {
      * @type {HelpEmbedOptions}
      */
     this.customHelp = customHelp
+    if (!this.customHelp.emojis) this.customHelp.emojis = { title: ':regional_indicator_h: ', alias: ':regional_indicator_a: ' }
 
     /**
      * Default module selection enabled when client login
