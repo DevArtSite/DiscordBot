@@ -16,7 +16,7 @@ module.exports = {
     }
 
     if (args.length === 0) {
-      const groups = this.module.client.commands.groups()c
+      const groups = this.module.client.commands.groups()
       return Object.keys(groups).map(groupName => {
         const group = groups[groupName]
         const embed = this.module.client.MessageEmbed({ title: embedTitle(this.module.client.user.tag, groupName), description: embedDescr(this.module.client.prefix) })
