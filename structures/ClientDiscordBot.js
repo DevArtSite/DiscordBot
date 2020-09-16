@@ -180,6 +180,7 @@ module.exports = ClientDiscordBot
  * @property {string} [prefix] Character string to recognize a command of a message
  * @property {string} [dbname] Name of mongo database
  * @property {Array|boolean} [useDefaultModule] Default module selection enabled
+ * @property {HelpEmbedOptions} [customHelp] Custom data for help embed
  */
 
 /**
