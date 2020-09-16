@@ -76,7 +76,6 @@ class CommandMessage extends Message {
    */
   async execute () {
     if (!this.isCommandRequest) return
-    console.log(this.args.slice(1))
     await this.command.execute(this, this.args.slice(1)).catch(error => this.client.handleError(error))
     if (this.command.autodelete) this.delete().catch(error => this.client.handleError(error))
     this.command.messages.set(this.id, this)
