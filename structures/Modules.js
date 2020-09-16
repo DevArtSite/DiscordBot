@@ -25,7 +25,7 @@ class Modules extends Collection {
      * @type {resolvedPath}
      * @readonly
      */
-    this.modulesPath = (this.modulesPath) ? path.resolve(modulesPath) : null
+    this.modulesPath = (modulesPath) ? path.resolve(modulesPath) : null
 
     /**
      * The string path to default modules folder
