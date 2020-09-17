@@ -66,7 +66,7 @@ class CommandMessage extends Message {
         return (str === cmd)
       })
     })
-    return (!command) ? (this.request.command) ? this.request.command : null : command
+    return (!command) ? (this.request && this.request.command) ? this.request.command : null : command
   }
 
   /**
