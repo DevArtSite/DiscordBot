@@ -108,7 +108,7 @@ class Module {
    * @returns {Boolean}
    */
   existFile (name) {
-    return (fs.existsSync(`${this.path}/${name}.js`) || fs.existsSync(`${this.path}/${name}`))
+    return (fs.existsSync(`${this.path}/${name}`) || fs.existsSync(`${this.path}/${name}.js`))
   }
 
   /**

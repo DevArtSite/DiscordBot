@@ -4,5 +4,7 @@ module.exports = {
   },
   afterReady: function () {
     console.log(`Methods script afterReady function from module: "${this.module.name}", work!!`)
+    const FolderMethods = this.client.modules.find(({ name }) => name === 'FolderMethods')
+    console.log(FolderMethods)
   }
 }
