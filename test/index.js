@@ -1,6 +1,6 @@
 require('dotenv').config()
-const { DiscordBot, Command } = require('../')
-const client = new DiscordBot({
+const { ClientDiscordBot, Command } = require('../')
+const client = new ClientDiscordBot({
   ggid: '377168761322471425',
   gcid: '747413628101197845',
   dev: 'MNLaugh',

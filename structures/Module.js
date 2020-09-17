@@ -2,6 +2,7 @@ const fs = require('fs')
 const { Snowflake } = require('discord.js')
 const Commands = require('./Commands')
 const Command = require('./Command')
+const ModuleMethods = require('./ModuleMethods')
 /**
  * Represents the Module.
  */
@@ -64,11 +65,10 @@ class Module {
 
     /**
      * The methods of this module
-     * @type {ModuleMethodsObject}
+     * @type {ModuleMethods}
      * @readonly
      */
-    this.methods = (this.existFile('methods')) ? require(`${this.path}/methods`) : {}
-    this.methods.module = this
+    this.methods = (this.existFile('methods')) ? new ModuleMethods(this.client, this, `${this.path}/methods`) : {}
 
     /**
      * Commands by inclusion of this module
@@ -118,6 +118,7 @@ class Module {
   async run () {
     this.client.emit('debug', `[DiscordBot => Module] ${this.name} Run`)
     this._commands.forEach(_command => new Command(this, _command))
+    if (typeof this.methods.init !== 'undefined') await this.methods.init().catch(error => this.client.handleError(error))
     Object.keys(this._events).forEach(_eventName => this.client.on(_eventName, this._events[_eventName]))
     if (!this.script) return
     return this.script()
@@ -141,39 +142,6 @@ module.exports = Module
  * - In this function "this" is the {@link Module} instance
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
  * @typedef {Function} ModuleScriptFunction
- */
-
-/**
- * The Methods object of a {@link Module}
- * ```js
- * ModuleMethodsObject = {
- *   myMethods: function () {
- *     // Can do stuff with "this.module"
- *   }
- * }
- * ```
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
- * @typedef {Object<ModuleMethodsFunction>} ModuleMethodsObject
- */
-
-/**
- * The ModuleMethodsFunction function of a {@link Module}
- * - In this function "this" is the methods object but when the {@link Module} is instantiated, it is transferred to the methods object
-  * - To access to the module you need to use that in your function
- * ```js
- * this.module
- * ```
- * ```js
- * // In this function "this" can be used
- * async function () { }
- * function () { }
- * // In this function "this" cannot be used
- * async () => { }
- * () => { }
- * ```
- * - In this function "this" is the an object with "module" variable containing the {@link Module} instance
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function}
- * @typedef {Function} ModuleMethodsFunction
  */
 
 /**
