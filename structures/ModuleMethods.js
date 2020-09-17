@@ -32,6 +32,7 @@ class ModuleMethods {
   }
 
   increment (methods, oldName = null) {
+    if (typeof methods === 'function') this[oldName] = methods
     Object.keys(methods).forEach(key => {
       const name = this.nameFormat(key, oldName || '')
       if (typeof methods[key] === 'function') this[name] = methods[key]
