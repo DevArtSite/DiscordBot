@@ -108,20 +108,21 @@ class ClientDiscordBot extends Client {
    * client.MessageEmbed({ title: 'My cool title', description: 'My awsome description' })
    */
   MessageEmbed (data = {}) {
-    if (this.user instanceof ClientUser) {
-      data = Object.assign({
-        title: null,
-        description: null,
-        color: 'RANDOM',
-        thumbnail: this.user.displayAvatarURL(),
-        timestamp: new Date(),
-        footer: {
-          text: `${this.user.tag} | ${this.dev}`,
-          iconUrl: this.user.displayAvatarURL()
-        }
-      }, data)
-    }
-    return new MessageEmbed(data)
+    data = Object.assign({
+      title: null,
+      description: null,
+      color: 'RANDOM',
+      thumbnail: `https://cdn.discordapp.com/avatars/${this.user.id}/${this.user.avatar}.png`,
+      timestamp: new Date(),
+      footer: {
+        text: `${this.user.tag} | ${this.dev}`,
+        iconUrl: `https://cdn.discordapp.com/avatars/${this.user.id}/${this.user.avatar}.png`
+      }
+    }, data)
+    const embed = new MessageEmbed(data)
+    embed.setThumbnail(data.thumbnail)
+    embed.setFooter(data.footer.text, data.footer.iconUrl)
+    return embed
   }
 
   /**
