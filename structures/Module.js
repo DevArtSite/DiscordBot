@@ -74,7 +74,7 @@ class Module {
      * @type {ModuleMethods}
      * @readonly
      */
-    this.methods = (this.existFile('methods')) ? new ModuleMethods(this.client, this, `${this.path}/methods`) : {}
+    this.methods = (this.existFile('methods')) ? new ModuleMethods(this.client, this, require(`${this.path}/methods`)) : {}
 
     /**
      * Commands by inclusion of this module
@@ -117,6 +117,13 @@ class Module {
     return (fs.existsSync(`${this.path}/${name}`) || fs.existsSync(`${this.path}/${name}.js`))
   }
 
+  /**
+   * Push an event function to the client events collection
+   * @param {String} [_eventName] Name of client event
+   * @param {Function} [func] Event callback function
+   * @private
+   * @returns {Void}
+   */
   pushEvent (_eventName, func) {
     if (!this.client.events.has(_eventName)) this.client.events.set(_eventName, [])
     this.client.events.get(_eventName).push(func)

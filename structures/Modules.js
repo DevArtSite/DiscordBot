@@ -36,6 +36,10 @@ class Modules extends Collection {
     this.defaultPath = path.resolve(`${__dirname}/../modules`)
   }
 
+  resolveName (nameResolvable) {
+    return this.find(({ name }) => name === nameResolvable)
+  }
+
   /**
    * Instantiates all new modules in the module folder
    * @private

@@ -10,7 +10,7 @@ class ModuleMethods {
    * @type {ModuleMethods}
    * @readonly
    */
-  constructor (client, module, path) {
+  constructor (client, module, methods) {
     /**
      * The instance of ClientDicordBot client
      * @type {ClientDiscordBot}
@@ -25,12 +25,14 @@ class ModuleMethods {
      */
     this.module = module
 
-    this.path = (fs.existsSync(`${path}.js`)) ? Path.resolve(`${path}.js`) : Path.resolve(path)
+    this._methods = methods
   }
 
   increment (methods, oldName = null) {
     if (oldName) this[oldName] = methods
-    else Object.keys(methods).forEach(key => { this[key] = methods[key] })
+    else Object.keys(methods).forEach(key => {
+      this[key] = methods[key]
+    })
   }
 
   async init () {

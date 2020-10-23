@@ -167,7 +167,7 @@ class ClientDiscordBot extends Client {
   handleEvents () {
     this.events.forEach((funcs, name) => {
       funcs.forEach(func => {
-        this.on(name, (...args) => func(...args, this))
+        this.on(name, (...args) => func(this, ...args))
       })
     })
   }
@@ -180,10 +180,10 @@ class ClientDiscordBot extends Client {
    * client.login('my token');
    */
   async login (token) {
-    await this.connect()
-      .catch(error => { throw error })
+    await this.connect().catch(error => { throw error })
     await this.modules.init()
     await this.modules.start()
+    this.handleEvents()
     return super.login(token)
   }
 
