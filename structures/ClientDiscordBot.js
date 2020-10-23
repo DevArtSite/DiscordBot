@@ -170,7 +170,6 @@ class ClientDiscordBot extends Client {
    * @returns {Void}
    */
   handleEvents () {
-    console.log(this.events)
     this.events.forEach((funcs, name) => {
       funcs.forEach(func => this.on(name, func))
     })
