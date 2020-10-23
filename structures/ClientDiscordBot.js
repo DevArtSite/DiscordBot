@@ -1,4 +1,4 @@
-const { Client, MessageEmbed, ClientUser } = require('discord.js')
+const { Client, MessageEmbed, ClientUser, Collection } = require('discord.js')
 const mongoose = require('mongoose')
 const Module = require('./Module')
 const Modules = require('./Modules')
@@ -13,7 +13,25 @@ class ClientDiscordBot extends Client {
   /**
    * @param {ClientDiscordBotOptions} options The data of client
    */
-  constructor ({ ggid = null, gcid = null, dev = 'Anonymous', prefix = '&', local = 'en', dbname = null, customHelp = { title: null, description: null, contentlimited: null, emojis: { title: ':regional_indicator_h: ', alias: ':regional_indicator_a: ' } }, modulesPath = null, useDefaultModule = ['*'] } = {}) {
+  constructor ({
+    ggid = null,
+    gcid = null,
+    dev = 'Anonymous',
+    prefix = '&',
+    local = 'en',
+    dbname = null,
+    customHelp = {
+      title: null,
+      description: null,
+      contentlimited: null,
+      emojis: {
+        title: ':regional_indicator_h: ',
+        alias: ':regional_indicator_a: '
+      }
+    },
+    modulesPath = null,
+    useDefaultModule = ['*']
+  } = {}) {
     super()
     /**
      * The ggid (global guild id) is the id of the developer’s guild
@@ -68,6 +86,12 @@ class ClientDiscordBot extends Client {
      * @readonly
      */
     this.commands = new Commands(this)
+
+    /**
+     * Events collection of client
+     * @type {Collection}
+     */
+    this.events = new Collection()
 
     /**
      * Modules collection of client
@@ -138,6 +162,14 @@ class ClientDiscordBot extends Client {
     if (this.db.readyState !== 1) await new Promise(resolve => this.db.on('open', () => resolve(true)))
     this.emit('debug', '[DiscordBot] Mongodb connected')
     return this.db
+  }
+
+  handleEvents () {
+    this.events.forEach((funcs, name) => {
+      funcs.forEach(func => {
+        this.on(name, (...args) => func(...args, this))
+      })
+    })
   }
 
   /**

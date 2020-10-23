@@ -7,7 +7,13 @@ const ModuleMethods = require('./ModuleMethods')
  * Represents the Module.
  */
 class Module {
-  constructor (client, { name = null, path = null, author = null, disable = false, autostart = true }) {
+  constructor (client, {
+    name = null,
+    path = null,
+    author = null,
+    disable = false,
+    autostart = true
+  }) {
     /**
      * The instance of ClientDicordBot client
      * @type {ClientDiscordBot}
@@ -111,6 +117,11 @@ class Module {
     return (fs.existsSync(`${this.path}/${name}`) || fs.existsSync(`${this.path}/${name}.js`))
   }
 
+  pushEvent (_eventName, func) {
+    if (!this.client.events.has(_eventName)) this.client.events.set(_eventName, [])
+    this.client.events.get(_eventName).push(func)
+  }
+
   /**
    * Run the main script of this module
    * @returns {Promise<ModuleScriptFunction>} ModuleScriptFunction
@@ -119,7 +130,7 @@ class Module {
     this.client.emit('debug', `[DiscordBot => Module] ${this.name} Run`)
     this._commands.forEach(_command => new Command(this, _command))
     if (typeof this.methods.init !== 'undefined') await this.methods.init().catch(error => this.client.handleError(error))
-    Object.keys(this._events).forEach(_eventName => this.client.on(_eventName, this._events[_eventName]))
+    Object.keys(this._events).forEach(_eventName => this.pushEvent(_eventName, this._events[_eventName]))
     if (!this.script) return
     return this.script()
   }
