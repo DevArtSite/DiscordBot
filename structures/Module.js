@@ -1,8 +1,10 @@
 const fs = require('fs')
+const path = require('path')
 const { Snowflake } = require('discord.js')
 const Commands = require('./Commands')
 const Command = require('./Command')
-const ModuleMethods = require('./ModuleMethods')
+const ModuleMethod = require('./ModuleMethod')
+const ModuleEventFunction = require('./ModuleEventFunction')
 /**
  * Represents the Module.
  */
@@ -71,10 +73,10 @@ class Module {
 
     /**
      * The methods of this module
-     * @type {ModuleMethods}
+     * @type {ModuleMethod}
      * @readonly
      */
-    this.methods = (this.existFile('methods')) ? new ModuleMethods(this.client, this, require(`${this.path}/methods`)) : {}
+    this.methods = (this.existFile('methods')) ? new ModuleMethod(this.client, this, this.filesParser('methods')) : {}
 
     /**
      * Commands by inclusion of this module
@@ -88,7 +90,7 @@ class Module {
      * @type {ModuleEventsObject}
      * @readonly
      */
-    this._events = (this.existFile('events')) ? require(`${this.path}/events`) : []
+    this._events = (this.existFile('events')) ? this.filesParser('events') : {}
 
     /**
      * Commands by inclusion of this module
@@ -117,6 +119,21 @@ class Module {
     return (fs.existsSync(`${this.path}/${name}`) || fs.existsSync(`${this.path}/${name}.js`))
   }
 
+  filesParser (folderName) {
+    if (this.existFile(folderName) && this.existFile(`${folderName}/index.js`)) {
+      return require(path.resolve(`${this.path}/${folderName}/index.js`))
+    } else if (fs.existsSync(`${this.path}/${folderName}.js`)) {
+      return require(path.resolve(`${this.path}/${folderName}.js`))
+    } else {
+      const files = fs.readdirSync(path.resolve(`${this.path}/${folderName}`))
+      const objs = {}
+      files.forEach(f => {
+        if (f.split('.')[0] !== 'index' && f.split('.')[1] === 'js') objs[f.split('.')[0]] = require(path.resolve(`${this.path}/${folderName}/${f}`))
+      })
+      return objs
+    }
+  }
+
   /**
    * Push an event function to the client events collection
    * @param {String} [_eventName] Name of client event
@@ -136,8 +153,7 @@ class Module {
   async run () {
     this.client.emit('debug', `[DiscordBot => Module] ${this.name} Run`)
     this._commands.forEach(_command => new Command(this, _command))
-    if (typeof this.methods.init !== 'undefined') await this.methods.init().catch(error => this.client.handleError(error))
-    Object.keys(this._events).forEach(_eventName => this.pushEvent(_eventName, this._events[_eventName]))
+    Object.keys(this._events).forEach(_eventName => this.pushEvent(_eventName, new ModuleEventFunction(this.client, this.module, this._events[_eventName])))
     if (!this.script) return
     return this.script()
   }

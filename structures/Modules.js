@@ -36,8 +36,13 @@ class Modules extends Collection {
     this.defaultPath = path.resolve(`${__dirname}/../modules`)
   }
 
-  resolveName (nameResolvable) {
-    return this.find(({ name }) => name === nameResolvable)
+  /**
+   * Get module by resolvable name
+   * @private
+   * @param {resolvableName} [resolvableName] Name of module
+   */
+  resolveName (resolvableName) {
+    return this.find(({ name }) => name === resolvableName)
   }
 
   /**
@@ -119,4 +124,9 @@ module.exports = Modules
  * Path resolved with "resolve" function from node.js module "path"
  * @see {@link https://nodejs.org/api/path.html#path_path_resolve_paths}
  * @typedef {string} resolvedPath
+ */
+
+/**
+ * Module name resolvable
+ * @typedef {string} resolvableName
  */

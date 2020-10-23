@@ -1,4 +1,4 @@
-const { Client, MessageEmbed, ClientUser, Collection } = require('discord.js')
+const { Client, MessageEmbed, Collection } = require('discord.js')
 const mongoose = require('mongoose')
 const Module = require('./Module')
 const Modules = require('./Modules')
@@ -164,11 +164,15 @@ class ClientDiscordBot extends Client {
     return this.db
   }
 
+  /**
+   * The events function instanciation
+   * @private
+   * @returns {Void}
+   */
   handleEvents () {
+    console.log(this.events)
     this.events.forEach((funcs, name) => {
-      funcs.forEach(func => {
-        this.on(name, (...args) => func(this, ...args))
-      })
+      funcs.forEach(func => this.on(name, func))
     })
   }
 

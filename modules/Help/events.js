@@ -1,7 +1,6 @@
 module.exports = {
-  ready: async function (client) {
-  	console.log(client)
-    const help = client.modules.resolveName('Help')
-    await client.user.setActivity(help.responses.setActivity(client.prefix), { type: 'LISTENING' }).catch(error => client.handleError(error))
+  ready: async function () {
+    const help = this.modules.resolveName('Help')
+    await this.user.setActivity(help.responses.setActivity(this.prefix), { type: 'LISTENING' }).catch(error => this.handleError(error))
   }
 }
